@@ -4,6 +4,7 @@ require_once '../model/connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
+	//Add new details
 	if (isset($_POST['btnAdd']))
 	{
 		$txtName = $_POST['txtName'];
@@ -31,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		}
 	}
 
+	//Search data to table
 	if (isset($_POST['txtSearch'])) {
 		$searchData = $_POST['searchData'];
 		if ($searchData == 0) {
@@ -56,9 +58,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 					$status = "Auction";
 				}
 				$url = substr($row['mylisting_URL'], 0, 15) . "..";
-				echo "<tr><td>".$no."</td><td>".$row['mylisting_Name']."</td><td>".$url."</td><td>".$row['mylisting_List_Qty']."</td><td>".$status."</td><td>".$row['mylisting_UnitPrice_USD']."</td><td>".$row['mylisting_ShippingCost_USD']."</td><td><button class='btn btn-warning btn-md' onclick='modifySearch(".$row['mylisting_ID'].");'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger btn-md' onclick='modifySearch(".$row['mylisting_ID'].");'><i class='bi bi-trash'></i></button></td></tr>";
+				echo "<tr><td>".$no."</td><td>".$row['mylisting_Name']."</td><td>".$url."</td><td>".$row['mylisting_List_Qty']."</td><td>".$status."</td><td>".$row['mylisting_UnitPrice_USD']."</td><td>".$row['mylisting_ShippingCost_USD']."</td><td><button class='btn btn-warning btn-md' onclick='modifySearchU(".$row['mylisting_ID'].");'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger btn-md' onclick='modifySearchD(".$row['mylisting_ID'].");'><i class='bi bi-trash'></i></button></td></tr>";
 				$no++;
 			}
+		}
+
+	}
+
+	// Search Data for update or Delete
+	if (isset($_POST['idSearch'])) {
+		$id = $_POST['id'];
+
+		$idSearchSql = "SELECT * FROM `tb_mylisting` WHERE `mylisting_ID`='$id'";
+
+		$idSearchQuery = mysqli_query($conn, $idSearchSql);
+
+		while($row = mysqli_fetch_assoc($idSearchQuery))
+		{
+			$data[0] = $row['mylisting_ID'];
+			$data[1] = $row['mylisting_Name'];
+			$data[2] = $row['mylisting_URL'];
+			$data[3] = $row['mylisting_List_Qty'];
+			$data[4] = $row['mylisting_Status'];
+			$data[5] = $row['mylisting_UnitPrice_USD'];
+			$data[6] = $row['mylisting_ShippingCost_USD'];
+
+			echo json_encode($data);;
 		}
 
 	}

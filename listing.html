@@ -57,7 +57,7 @@
                     <div class="container-fluid">
                         <h3 class="text-dark mb-4">
                             Item Listing &nbsp;&nbsp;
-                            <button class="btn btn-primary btn-md" id="btnNew" name="btnNew">New&nbsp;</button> 
+                            <button class="btn btn-primary btn-md" id="btnNew" name="btnNew" onclick="newClicked()">New&nbsp;</button> 
                         </h3>
                         <div class="row mb-5">
                             <div class="col-lg-12">                      
@@ -71,6 +71,7 @@
                                                 <form method="post">
                                                     <div class="form-group">
                                                         <label for="txtName"><strong>Name</strong></label>
+                                                        <input type="hidden" id="txtId" name="txtId">
                                                         <input class="form-control" type="text" placeholder="Enter listing Name..." id="txtName" name="txtName">
                                                     </div>
                                                     <div class="form-group">
@@ -134,150 +135,203 @@
                                         <div class="text-md-right dataTables_filter">
                                             <label>
                                                 <input type="text" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchText" onkeyup="searchData(this.value)"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>URL</th>
+                                                    <th>Listed Qty</th>
+                                                    <th>Status</th>
+                                                    <th>Unit Cost USD</th>
+                                                    <th>Shipping Cost USD</th>
+                                                    <th>Edit / Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="dataBody">
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th><strong>#</strong></th>
+                                                    <th><strong>Name</strong></th>
+                                                    <th><strong>URL</strong></th>
+                                                    <th><strong>Listed Qty</strong></th>
+                                                    <th><strong>Status</strong></th>
+                                                    <th><strong>Unit Cost USD</strong></th>
+                                                    <th><strong>Shipping Cost USD</strong></th>
+                                                    <th><strong>Edit / Delete</strong></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 align-self-center">
+                                            <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing result : First 5 or less.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive table mt-2">
-                                    <table class="table my-0" id="dataTable">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>URL</th>
-                                                <th>Listed Qty</th>
-                                                <th>Status</th>
-                                                <th>Unit Cost USD</th>
-                                                <th>Shipping Cost USD</th>
-                                                <th>Edit / Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="dataBody">
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th><strong>#</strong></th>
-                                                <th><strong>Name</strong></th>
-                                                <th><strong>URL</strong></th>
-                                                <th><strong>Listed Qty</strong></th>
-                                                <th><strong>Status</strong></th>
-                                                <th><strong>Unit Cost USD</strong></th>
-                                                <th><strong>Shipping Cost USD</strong></th>
-                                                <th><strong>Edit / Delete</strong></th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 align-self-center">
-                                        <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing result : First 5 or less.</p>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
+                        <div id="testddd"></div>
+
+                        <footer class="bg-white sticky-footer">
+                            <div class="container my-auto">
+                                <div class="text-center my-auto copyright"><span>Copyright © Brand 2020</span></div>
+                            </div>
+                        </footer>
                     </div>
 
-                    <footer class="bg-white sticky-footer">
-                        <div class="container my-auto">
-                            <div class="text-center my-auto copyright"><span>Copyright © Brand 2020</span></div>
-                        </div>
-                    </footer>
-                </div>
 
 
+                    <script type="text/javascript">
 
-                <script type="text/javascript">
+                        document.getElementById("btnNew").style.visibility = "hidden";
+                        document.getElementById("btnAdd").style.visibility = "visible";
+                        document.getElementById("btnUpdate").style.visibility = "hidden";
+                        document.getElementById("btnDelete").style.visibility = "hidden";
 
-                    function test(){
-                    }
-
-                    function modifySearch(id) {
-                        alert(id);
-                    }
-
-                    function addData(){       
-
-                        var txtName = document.getElementById("txtName").value;
-                        var txtURL = document.getElementById("txtURL").value;
-                        var txtListQty = document.getElementById("txtListQty").value;
-                        var slctStatus = document.getElementById("slctStatus").value;
-                        var txtUnitPriceUSD = document.getElementById("txtUnitPriceUSD").value;
-                        var txtShippingCostUSD = document.getElementById("txtShippingCostUSD").value;
-
-                        var x = "1";
-                        if (txtName == ""){
-                            x = "Name feild is empty. Enter Product Name."
+                        function test(){
                         }
-                        else if (txtURL == "") {
-                            x = "URL feild is empty. Enter URL."
+
+                        function newClicked() {
+                            document.getElementById("btnNew").style.visibility = "hidden";
+                            document.getElementById("btnAdd").style.visibility = "visible";
+                            document.getElementById("btnUpdate").style.visibility = "hidden";
+                            document.getElementById("btnDelete").style.visibility = "hidden";
+
+                            document.getElementById("txtId").value = "";
+                            document.getElementById("txtName").value = "";
+                            document.getElementById("txtURL").value = "";
+                            document.getElementById("txtListQty").value = "";
+                            document.getElementById("slctStatus").selectedIndex = "0";
+                            document.getElementById("txtUnitPriceUSD").value = "";
+                            document.getElementById("txtShippingCostUSD").value = "";
                         }
-                        else if (txtListQty == "") {
-                            x = "Listed Qty feild is empty. Enter Listed Qty."
+
+                        function modifySearchU(id) {                            
+                            document.getElementById("btnNew").style.visibility = "visible";
+                            document.getElementById("btnAdd").style.visibility = "hidden";
+                            document.getElementById("btnUpdate").style.visibility = "visible";
+                            document.getElementById("btnDelete").style.visibility = "hidden";
+                            modifySearch(id); 
                         }
-                        else if (txtUnitPriceUSD == "") {
-                            x = "Unit Price(USD) feild is empty. Enter Unit Price(USD)."
+                        function modifySearchD(id) {
+                            document.getElementById("btnNew").style.visibility = "visible";
+                            document.getElementById("btnAdd").style.visibility = "hidden";
+                            document.getElementById("btnUpdate").style.visibility = "hidden";
+                            document.getElementById("btnDelete").style.visibility = "visible";
+                            modifySearch(id); 
                         }
-                        else if (txtShippingCostUSD == "") {
-                            x = "Shipping Cost(USD) feild is empty. Enter Shipping Cost(USD))."
+                        function modifySearch(id) {
+                            // alert(id); 
+                            if (id || id == "0") {
+                                // alert("ID is not empty"); 
+                                $.ajax({
+                                    type: 'post',
+                                    url: 'controll/listingController.php', 
+                                    data: {
+                                        idSearch : 1,
+                                        id : id,
+                                    },
+                                    success: function (response) {
+                                        if (response) {
+                                            alert(response);
+
+                                            var obj = JSON.parse(response);
+
+                                            document.getElementById("txtId").value = obj[0];
+                                            document.getElementById("txtName").value = obj[1];
+                                            document.getElementById("txtURL").value = obj[2];
+                                            document.getElementById("txtListQty").value = obj[3];
+                                            document.getElementById("slctStatus").selectedIndex = obj[4];
+                                            document.getElementById("txtUnitPriceUSD").value = obj[5];
+                                            document.getElementById("txtShippingCostUSD").value = obj[6];
+                                        }
+                                    }
+                                });
+                            }
+                            else{
+                                alert("ID not empty");
+                                newClicked();
+                            }
                         }
-                        if (x != 1) {
-                            alert(x);
+
+
+                        function addData(){   
+                            var txtName = document.getElementById("txtName").value;
+                            var txtURL = document.getElementById("txtURL").value;
+                            var txtListQty = document.getElementById("txtListQty").value;
+                            var slctStatus = document.getElementById("slctStatus").value;
+                            var txtUnitPriceUSD = document.getElementById("txtUnitPriceUSD").value;
+                            var txtShippingCostUSD = document.getElementById("txtShippingCostUSD").value;
+
+                            var x = "1";
+                            if (txtName == ""){
+                                x = "Name feild is empty. Enter Product Name."
+                            }
+                            else if (txtURL == "") {
+                                x = "URL feild is empty. Enter URL."
+                            }
+                            else if (txtListQty == "") {
+                                x = "Listed Qty feild is empty. Enter Listed Qty."
+                            }
+                            else if (txtUnitPriceUSD == "") {
+                                x = "Unit Price(USD) feild is empty. Enter Unit Price(USD)."
+                            }
+                            else if (txtShippingCostUSD == "") {
+                                x = "Shipping Cost(USD) feild is empty. Enter Shipping Cost(USD))."
+                            }
+                            if (x != 1) {
+                                alert(x);
+                            }
+                            if (x == "1") {
+                                $.ajax({
+                                    type: 'post',
+                                    url: 'controll/listingController.php', 
+                                    data: {
+                                        btnAdd : 1,
+                                        txtName : txtName,
+                                        txtURL : txtURL,
+                                        txtListQty : txtListQty,
+                                        slctStatus : slctStatus,
+                                        txtUnitPriceUSD : txtUnitPriceUSD,
+                                        txtShippingCostUSD : txtShippingCostUSD,
+                                    },
+                                    success: function (response) {
+                                        if (response == "0") {
+                                            alert("Details saved Successfully.");
+
+                                            document.getElementById("txtName").value = "";
+                                            document.getElementById("txtURL").value = "";
+                                            document.getElementById("txtListQty").value = "";
+                                            document.getElementById("txtUnitPriceUSD").value = "";
+                                            document.getElementById("txtShippingCostUSD").value = "";
+                                        }
+                                    }
+                                });
+                            }
                         }
-                        if (x == "1") {
+                        searchData(0);
+                        function searchData(data){
                             $.ajax({
                                 type: 'post',
                                 url: 'controll/listingController.php', 
                                 data: {
-                                    btnAdd : 1,
-                                    txtName : txtName,
-                                    txtURL : txtURL,
-                                    txtListQty : txtListQty,
-                                    slctStatus : slctStatus,
-                                    txtUnitPriceUSD : txtUnitPriceUSD,
-                                    txtShippingCostUSD : txtShippingCostUSD,
+                                    txtSearch : 1,
+                                    searchData : data,
                                 },
                                 success: function (response) {
-                                    if (response == "0") {
-                                        alert("Details saved Successfully.");
-
-                                        document.getElementById("txtName").value = "";
-                                        document.getElementById("txtURL").value = "";
-                                        document.getElementById("txtListQty").value = "";
-                                        document.getElementById("txtUnitPriceUSD").value = "";
-                                        document.getElementById("txtShippingCostUSD").value = "";
-                                    }
+                                    document.getElementById("dataBody").innerHTML = response;
                                 }
                             });
                         }
-                    }
-                    searchData(0);
-                    function searchData(data){
-                        // var data = document.getElementById("searchText").value;
-                        // if (data == "") {
-                        //     data = 0;
-                        // }
-                        // alert(data);
-                        // if (data == "" || data == " ") {
-                        //     data = 0;
-                        // }
-                        // else{
-                        //     document.getElementById("dataBody").innerHTML = "<tr><td colspan='8' style='text-align=center;'>No Data to Show</td></tr>";
-                        // }
-                        $.ajax({
-                            type: 'post',
-                            url: 'controll/listingController.php', 
-                            data: {
-                                txtSearch : 1,
-                                searchData : data,
-                            },
-                            success: function (response) {
-                                document.getElementById("dataBody").innerHTML = response;
-                            }
-                        });
-                    }
-                </script>   
-                
+                    </script>   
 
 
 
@@ -287,14 +341,15 @@
 
 
 
-                <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-                <script src="assets/js/jquery.min.js"></script>
-                <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-                <script src="assets/js/chart.min.js"></script>
-                <script src="assets/js/bs-init.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-                <script src="assets/js/theme.js"></script>
 
-            </body>
+                    <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+                    <script src="assets/js/jquery.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                    <script src="assets/js/chart.min.js"></script>
+                    <script src="assets/js/bs-init.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+                    <script src="assets/js/theme.js"></script>
 
-            </html>
+                </body>
+
+                </html>
