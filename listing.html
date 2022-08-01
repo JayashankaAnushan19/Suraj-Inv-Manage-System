@@ -64,11 +64,11 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="card shadow mb-3">
-                                            <div class="card-header py-3">
-                                                <p class="text-primary m-0 font-weight-bold">Item Listing</p>
+                                            <div id="topicBG" class="card-header py-3">
+                                                <p id="topicText" class="text-primary m-0 font-weight-bold">Item Listing</p>
                                             </div>
                                             <div class="card-body">
-                                                <form method="post">
+                                                <form id="dataOperateArea" method="post">
                                                     <div class="form-group">
                                                         <label for="txtName"><strong>Name</strong></label>
                                                         <input type="hidden" id="txtId" name="txtId">
@@ -108,13 +108,13 @@
                                                                     <input class="form-control" type="text" placeholder="Enter Shipping Cost USD..." id="txtShippingCostUSD" name="txtShippingCostUSD">
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd" onclick="addData()">Add New&nbsp;</button>
-                                                            <button class="btn btn-warning btn-md" id="btnUpdate"  name="btnUpdate" onclick="test()">Update&nbsp;</button>
-                                                            <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete" onclick="">Delete&nbsp;</button>
-                                                        </div>
+                                                        </div>                                                        
                                                     </form>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd" onclick="addData()">Add New&nbsp;</button>
+                                                        <button class="btn btn-warning btn-md" id="btnUpdate"  name="btnUpdate" onclick="updateData()">Update&nbsp;</button>
+                                                        <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete" onclick="deleteData()">Delete&nbsp;</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -196,7 +196,87 @@
                         document.getElementById("btnUpdate").style.visibility = "hidden";
                         document.getElementById("btnDelete").style.visibility = "hidden";
 
-                        function test(){
+                        function deleteData() {
+                            var txtID = document.getElementById("txtId").value;
+                            var txtName = document.getElementById("txtName").value;
+
+                            if (confirm("Are you sure to delete (" + txtName +") ?")) {
+                                // alert("You can delete the item of "+ txtName);
+                                $.ajax({
+                                    type: 'post',
+                                    url: 'controll/listingController.php', 
+                                    data: {
+                                        btnDelete : 1,
+                                        txtID : txtID,
+                                    },
+                                    success: function (response) {
+                                        if (response == "0") {
+                                            alert("\""+ txtName + "\"" + " deleted Successfully.");
+                                            searchData(0);
+                                        }
+                                        else{
+                                            alert("Something is wrong. Contact system admin. \n\n" + response);
+                                            searchData(0);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+
+                        function updateData(){
+                            var txtID = document.getElementById("txtId").value;
+                            var txtName = document.getElementById("txtName").value;
+                            var txtURL = document.getElementById("txtURL").value;
+                            var txtListQty = document.getElementById("txtListQty").value;
+                            var slctStatus = document.getElementById("slctStatus").value;
+                            var txtUnitPriceUSD = document.getElementById("txtUnitPriceUSD").value;
+                            var txtShippingCostUSD = document.getElementById("txtShippingCostUSD").value;
+
+                            var x = "1";
+                            if (txtName == ""){
+                                x = "Name feild is empty. Enter Product Name."
+                            }
+                            else if (txtURL == "") {
+                                x = "URL feild is empty. Enter URL."
+                            }
+                            else if (txtListQty == "") {
+                                x = "Listed Qty feild is empty. Enter Listed Qty."
+                            }
+                            else if (txtUnitPriceUSD == "") {
+                                x = "Unit Price(USD) feild is empty. Enter Unit Price(USD)."
+                            }
+                            else if (txtShippingCostUSD == "") {
+                                x = "Shipping Cost(USD) feild is empty. Enter Shipping Cost(USD))."
+                            }
+                            if (x != 1) {
+                                alert(x);
+                            }
+                            if (x == "1") { 
+                                $.ajax({
+                                    type: 'post',
+                                    url: 'controll/listingController.php', 
+                                    data: {
+                                        btnUpdate : 1,
+                                        txtID : txtID,
+                                        txtName : txtName,
+                                        txtURL : txtURL,
+                                        txtListQty : txtListQty,
+                                        slctStatus : slctStatus,
+                                        txtUnitPriceUSD : txtUnitPriceUSD,
+                                        txtShippingCostUSD : txtShippingCostUSD,
+                                    },
+                                    success: function (response) {
+                                        if (response == "0") {
+                                            alert("Details updated Successfully.");
+                                            searchData(0);
+                                        }
+                                        else{
+                                            alert("Something is wrong. Contact system admin. \n\n" + response);
+                                            searchData(0);
+                                        }
+                                    }
+                                });
+                            }
                         }
 
                         function newClicked() {
@@ -212,6 +292,17 @@
                             document.getElementById("slctStatus").selectedIndex = "0";
                             document.getElementById("txtUnitPriceUSD").value = "";
                             document.getElementById("txtShippingCostUSD").value = "";
+
+                            $("#dataOperateArea").find('input').each(function () {
+                                $(this).attr('disabled', false);
+                            });
+                            $("#dataOperateArea").find('select').each(function () {
+                                $(this).attr('disabled', false);
+                            });
+
+                            document.getElementById("topicText").innerHTML = "Item Listing";
+                            document.getElementById("topicBG").style.backgroundColor = "";
+
                         }
 
                         function modifySearchU(id) {                            
@@ -219,13 +310,35 @@
                             document.getElementById("btnAdd").style.visibility = "hidden";
                             document.getElementById("btnUpdate").style.visibility = "visible";
                             document.getElementById("btnDelete").style.visibility = "hidden";
-                            modifySearch(id); 
+
+                            $("#dataOperateArea").find('input').each(function () {
+                                $(this).attr('disabled', false);
+                            });
+                            $("#dataOperateArea").find('select').each(function () {
+                                $(this).attr('disabled', false);
+                            });
+
+                            document.getElementById("topicText").innerHTML = "Update the Item";
+                            document.getElementById("topicBG").style.backgroundColor = "#ffb347";
+
+                            modifySearch(id);                             
                         }
                         function modifySearchD(id) {
                             document.getElementById("btnNew").style.visibility = "visible";
                             document.getElementById("btnAdd").style.visibility = "hidden";
                             document.getElementById("btnUpdate").style.visibility = "hidden";
                             document.getElementById("btnDelete").style.visibility = "visible";
+                            
+                            $("#dataOperateArea").find('input').each(function () {
+                                $(this).attr('disabled', true);
+                            });
+                            $("#dataOperateArea").find('select').each(function () {
+                                $(this).attr('disabled', true);
+                            });
+
+                            document.getElementById("topicText").innerHTML = "Delete the Item";
+                            document.getElementById("topicBG").style.backgroundColor = "#f69697";
+
                             modifySearch(id); 
                         }
                         function modifySearch(id) {
@@ -241,7 +354,7 @@
                                     },
                                     success: function (response) {
                                         if (response) {
-                                            alert(response);
+                                            // alert(response);
 
                                             var obj = JSON.parse(response);
 
@@ -252,6 +365,8 @@
                                             document.getElementById("slctStatus").selectedIndex = obj[4];
                                             document.getElementById("txtUnitPriceUSD").value = obj[5];
                                             document.getElementById("txtShippingCostUSD").value = obj[6];
+
+                                            $('html,body').scrollTop(1);
                                         }
                                     }
                                 });

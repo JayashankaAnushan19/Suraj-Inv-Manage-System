@@ -61,16 +61,25 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="card shadow mb-3">
-                                            <div class="card-header py-3">
-                                                <p class="text-primary m-0 font-weight-bold">Buy and Sell</p>
+                                            <div id="topicBG" class="card-header py-3">
+                                                <p id="topicText" class="text-primary m-0 font-weight-bold">Item Listing</p>
                                             </div>
                                             <div class="card-body">
                                                 <form>
                                                     <div class="form-group">
-                                                        <label for="txtSoldItemName"><strong>Name</strong></label><input class="form-control" type="text" placeholder="Enter listing Name..." id="txtSoldItemName" name="txtSoldItemName">
+                                                        <input type="hidden" id="txtID" name="txtID">
+                                                        <label for="txtSoldItemName"><strong>Name</strong></label>
+                                                        <input class="form-control" type="text" placeholder="Enter listing Name..." id="txtSoldItemName" name="txtSoldItemName" onkeyup="filterName(this.value);">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="txtSoldURL"><strong>URL</strong></label><input class="form-control" type="text" placeholder="Enter buy URL..." id="txtSoldURL" name="txtSoldURL">
+                                                        <table class="table" id="nameSuggestDIV">
+                                                        </table>
+                                                        <!-- Add list as a table -->
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="txtSoldURL"><strong>URL</strong></label>                                                        
+                                                        <!-- <input  type="text" placeholder="Enter buy URL..." value=""> -->
+                                                        <a class="form-control" id="txtSoldURL" name="txtSoldURL" href="" target="_blank">Go to the site</a>
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col">
@@ -123,9 +132,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd">Add New&nbsp;</button>
-                                                        <button class="btn btn-warning btn-md" id="btnUpdate" name="btnUpdate">Update&nbsp;</button>
-                                                        <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete">Delete&nbsp;</button>
+                                                        <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd" onclick="">Add New&nbsp;</button>
+                                                        <button class="btn btn-warning btn-md" id="btnUpdate" name="btnUpdate" onclick="">Update&nbsp;</button>
+                                                        <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete" onclick="">Delete&nbsp;</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -162,24 +171,13 @@
                                             <th>Edit / Delete</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tblData">
                                         <tr>
                                             <td>1</td>
                                             <td>Accountant</td>
                                             <td>33</td>
                                             <td>$162,700</td>
                                             <td>$1,200,000</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-md"><i class="bi bi-pencil-square"></i> </button>
-                                                <button class="btn btn-danger btn-md"><i class="bi bi-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Chief Executive Officer(CEO)</td>
-                                            <td>47</td>
-                                            <td>$1,200,000</td>
-                                            <td>$162,700</td>
                                             <td>
                                                 <button class="btn btn-warning btn-md"><i class="bi bi-pencil-square"></i> </button>
                                                 <button class="btn btn-danger btn-md"><i class="bi bi-trash"></i></button>
@@ -212,6 +210,78 @@
                         <div class="text-center my-auto copyright"><span>Copyright © Brand 2020</span></div>
                     </div>
                 </footer>
+
+                <script type="text/javascript">
+                    function filterName(name) {
+                        if (name.length > 1) {
+                            // alert("Text is : "+name.toLowerCase());
+
+                            $.ajax({
+                                type: 'post',
+                                url: 'controll/buySellController.php', 
+                                data: {
+                                    txtFilterName : 1,
+                                    name : name.toLowerCase(),
+                                },
+                                success: function (response) {
+                                    document.getElementById("nameSuggestDIV").innerHTML = response;
+                                }
+                            });
+                        }
+                        else{
+                            var element = document.getElementById("nameSuggestDIV");
+                            element.removeChild(element.firstElementChild);
+                        }
+                    }
+
+                    function loadDataToText(idToTXT) {
+                        alert(idToTXT);
+
+                        if (idToTXT) {
+
+                            $.ajax({
+                                type: 'post',
+                                url: 'controll/buySellController.php', 
+                                data: {
+                                    loadDataToTXT : 1,
+                                    idToTXT : idToTXT,
+                                },
+                                success: function (response) {
+                                    var obj = JSON.parse(response);
+
+                                    document.getElementById("txtID").value = obj[0];
+                                    document.getElementById("txtSoldItemName").value = obj[1];
+                                    // document.getElementById("txtSoldURL").value = obj[2];
+
+                                    var a = document.getElementById('txtSoldURL'); //or grab it by tagname etc
+                                    a.href =  obj[2];
+
+                                    document.getElementById("txtSoldListedQty").value = obj[3];
+                                    document.getElementById("txtSoldListedStatus").value = obj[4];
+                                    document.getElementById("txtSoldUnitCost").value = obj[5];
+                                    document.getElementById("txtSoldShippingCost").value = obj[6];
+
+
+                                    var el = document.getElementById("nameSuggestDIV");
+                                    el.removeChild(el.firstElementChild);
+                                }
+                            });
+                        }
+                    }
+
+                    var lnk=document.getElementById('txtSoldURL');
+                    lnk.addEventListener('click',()=>{
+                        window.location.href = lnk.getAttribute('value');
+                    });
+                </script>
+
+
+
+
+
+
+
+
             </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
             <script src="assets/js/jquery.min.js"></script>
             <script src="assets/bootstrap/js/bootstrap.min.js"></script>
