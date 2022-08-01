@@ -44,8 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 		$query = mysqli_query($conn, $searchSql);
 
-		if (mysqli_num_rows($query) < 1) {
+		if (mysqli_num_rows($query) < 1 ) {
 			echo "<tr><td colspan='8' style='text-align=center;'>No Data to Show</td></tr>";
+		}
+		elseif ($conn->error) {
+			echo "<tr><td colspan='8' style='text-align=center;'>Database Err. Please contact system admin.</td></tr>";
 		}
 		else{
 			$no = 1;

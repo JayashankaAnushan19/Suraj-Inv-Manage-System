@@ -213,10 +213,12 @@
                                         if (response == "0") {
                                             alert("\""+ txtName + "\"" + " deleted Successfully.");
                                             searchData(0);
+                                            newClicked();
                                         }
                                         else{
                                             alert("Something is wrong. Contact system admin. \n\n" + response);
                                             searchData(0);
+                                            newClicked();
                                         }
                                     }
                                 });
@@ -269,10 +271,12 @@
                                         if (response == "0") {
                                             alert("Details updated Successfully.");
                                             searchData(0);
+                                            newClicked();
                                         }
                                         else{
                                             alert("Something is wrong. Contact system admin. \n\n" + response);
                                             searchData(0);
+                                            newClicked();
                                         }
                                     }
                                 });
