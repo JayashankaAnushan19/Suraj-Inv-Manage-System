@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$no = 1;
 			while($row = mysqli_fetch_assoc($filterSQLQuery))
 			{
-				echo "<tr border='1' onclick='loadDataToText(".$row['mylisting_ID'].")' id='".$row['mylisting_ID']."' style='background-color: lightblue;'>
+				echo "<tr border='1' onclick='loadDataToText(".$row['mylisting_ID'].")' id='".$row['mylisting_ID']."' style='background-color: lightblue; cursor: pointer;'>
 				<td colspan='8' style='text-align=left;'>".$row['mylisting_Name']."</td></tr>";
 			}
 		}
@@ -30,8 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$idToTXT = $_POST['idToTXT'];
 
 		$listIdSearchSql = "SELECT * FROM `tb_mylisting` WHERE `mylisting_ID`='$idToTXT'";
+		$remainQtySql = "SELECT SUM(`buyAndSell_Qty`) FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID`='$idToTXT'";
 
 		$listIdSearchQuery = mysqli_query($conn, $listIdSearchSql);
+		$listIdRemainQty = mysqli_query($conn, $remainQtySql);
+
 
 		while($row = mysqli_fetch_assoc($listIdSearchQuery))
 		{
@@ -48,6 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			}
 			$data[5] = $row['mylisting_UnitPrice_USD'];
 			$data[6] = $row['mylisting_ShippingCost_USD'];
+			// $data[7] = $listIdRemainQty;
+			while($row = mysqli_fetch_assoc($listIdRemainQty)){
+				$data[7] = $row['SUM(`buyAndSell_Qty`)'];
+			}
 
 			echo json_encode($data);;
 		}
