@@ -54,7 +54,7 @@
                     <div class="container-fluid">
                         <h3 class="text-dark mb-4">
                             Buy and Sell &nbsp;&nbsp;
-                            <button class="btn btn-primary btn-md" id="btnAdd" name="btnAdd">New&nbsp;</button> 
+                            <button class="btn btn-primary btn-md" id="btnAdd" name="btnAdd" onclick="newClicked()">New&nbsp;</button> 
                         </h3>
                         <div class="row mb-5">
                             <div class="col-lg-12">                      
@@ -65,9 +65,10 @@
                                                 <p id="topicText" class="text-primary m-0 font-weight-bold">Item Listing</p>
                                             </div>
                                             <div class="card-body">
-                                                <form>
+                                                <form id="buySellForm" method="post">
                                                     <div class="form-group">
                                                         <input type="hidden" id="txtID" name="txtID">
+                                                        <input type="hidden" id="listedItemID" name="listedItemID">
                                                         <label for="txtSoldItemName"><strong>Name</strong></label>
                                                         <input class="form-control" type="text" placeholder="Enter listing Name..." id="txtSoldItemName" name="txtSoldItemName" onkeyup="filterName(this.value);">
                                                     </div>
@@ -79,10 +80,10 @@
                                                     <div class="form-row">
                                                         <div class="col">
                                                             <div class="form-group">
-                                                        <label for="txtSoldURL"><strong>URL</strong></label>                                                        
-                                                        <!-- <input  type="href" placeholder="Enter buy URL..." value=""> -->
-                                                        <a class="form-control" id="txtSoldURL" name="txtSoldURL" href="" target="_blank">Go to the site</a>
-                                                    </div>
+                                                                <label for="txtSoldURL"><strong>URL</strong></label>                                                        
+                                                                <!-- <input  type="href" placeholder="Enter buy URL..." value=""> -->
+                                                                <a class="form-control" id="txtSoldURL" name="txtSoldURL" href="" target="_blank">Go to the site</a>
+                                                            </div>
                                                         </div>
                                                         <div class="col">
                                                             <div class="form-group"><label for="txtSoldListedStatus"><strong>Listed status</strong></label><input class="form-control" type="text" placeholder="..." id="txtSoldListedStatus" name="txtSoldListedStatus" readonly></div>
@@ -98,13 +99,24 @@
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="col">
-                                                            <div class="form-group"><label for="txtSoldUnitCost"><strong>Listed Unit Price USD</strong></label><input class="form-control" type="number" placeholder="00" id="txtSoldUnitCost" name="txtSoldUnitCost"></div>
+                                                            <div class="form-group"><label for="txtSoldUnitCost"><strong>Listed Unit Price USD</strong></label><input class="form-control" type="number" placeholder="00" id="txtSoldUnitCost" name="txtSoldUnitCost" readonly></div>
                                                         </div>
                                                         <div class="col">
-                                                            <div class="form-group"><label for="txtSoldShippingCost"><strong>Listed Shipping Cost USD</strong></label><input class="form-control" type="number" placeholder="00" id="txtSoldShippingCost" name="txtSoldShippingCost"></div>
+                                                            <div class="form-group"><label for="txtSoldShippingCost"><strong>Listed Shipping Cost USD</strong></label><input class="form-control" type="number" placeholder="00" id="txtSoldShippingCost" name="txtSoldShippingCost" readonly></div>
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <div class="form-group"><label for="txtSelingUnitCost"><strong>Selling Unit Price USD</strong> 
+                                                                <span style="border: 1px solid black; border-radius: 10px" onclick="readChangeSellUnit();">&nbsp;Change&nbsp;</span>
+                                                            </label><input class="form-control" type="number" placeholder="00" id="txtSelingUnitCost" name="txtSelingUnitCost" readonly></div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group"><label for="txtSellingShippingCost"><strong>Selling Shipping Cost USD</strong>
+                                                                <span style="border: 1px solid black; border-radius: 10px" onclick="readChangeSellShipping();">&nbsp;Change&nbsp;</span>
+                                                            </label><input class="form-control" type="number" placeholder="00" id="txtSellingShippingCost" name="txtSellingShippingCost" readonly></div>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-row">
                                                         <div class="col">
                                                             <div class="form-group"><label for="txtSoldDate"><strong>Paid Date</strong></label><input class="form-control" type="date" placeholder="Enter Unit Price USD..." id="txtSoldDate" name="txtSoldDate"></div>
@@ -137,13 +149,13 @@
                                                         <div class="col">
                                                             <div class="form-group"><label for="txtUSD_LKR_Rate"><strong>USD LKR Rate</strong></label><input class="form-control" type="number" placeholder="Enter Shipping Cost USD..." id="txtUSD_LKR_Rate" name="txtUSD_LKR_Rate"></div>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd" onclick="">Add New&nbsp;</button>
-                                                        <button class="btn btn-warning btn-md" id="btnUpdate" name="btnUpdate" onclick="">Update&nbsp;</button>
-                                                        <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete" onclick="">Delete&nbsp;</button>
-                                                    </div>
+                                                    </div>                                                    
                                                 </form>
+                                                <div class="form-group">
+                                                    <button class="btn btn-success btn-md" id="btnAdd" name="btnAdd" onclick="addData()">Add New&nbsp;</button>
+                                                    <button class="btn btn-warning btn-md" id="btnUpdate"  name="btnUpdate" onclick="updateData()">Update&nbsp;</button>
+                                                    <button class="btn btn-danger btn-md" id="btnDelete" name="btnDelete" onclick="deleteData()">Delete&nbsp;</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +173,9 @@
                                 <div class="col-md-6 text-nowrap">
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label>
+                                        <input type="text" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" id="searchText" onkeyup="searchData(this.value)"></label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +219,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 align-self-center">
-                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing result : First 5 or less.</p>
                                 </div>
                             </div>
                         </div>
@@ -217,10 +231,10 @@
                         <div class="text-center my-auto copyright"><span>Copyright © Brand 2020</span></div>
                     </div>
                 </footer>
-
-                <script type="text/javascript">
-                    function filterName(name) {
-                        if (name.length > 1) {
+            </div>
+            <script type="text/javascript">
+                function filterName(name) {
+                    if (name.length > 1) {
                             // alert("Text is : "+name.toLowerCase());
 
                             $.ajax({
@@ -242,7 +256,7 @@
                     }
 
                     function loadDataToText(idToTXT) {
-                        alert(idToTXT);
+                        // alert(idToTXT);
 
                         if (idToTXT) {
 
@@ -256,7 +270,7 @@
                                 success: function (response) {
                                     var obj = JSON.parse(response);
 
-                                    document.getElementById("txtID").value = obj[0];
+                                    document.getElementById("listedItemID").value = obj[0];
                                     document.getElementById("txtSoldItemName").value = obj[1];
 
                                     document.getElementById("txtSoldURL").value = obj[2];
@@ -266,14 +280,19 @@
 
                                     document.getElementById("txtSoldListedQty").value = obj[3];
                                     document.getElementById("txtSoldListedStatus").value = obj[4];
-                                    document.getElementById("txtSoldUnitCost").value = obj[5];
-                                    document.getElementById("txtSoldShippingCost").value = obj[6];
+                                    document.getElementById("txtSoldUnitCost").value = document.getElementById("txtSelingUnitCost").value = obj[5];
+                                    document.getElementById("txtSoldShippingCost").value = document.getElementById("txtSellingShippingCost").value = obj[6];
+
+
+
                                     document.getElementById("txtSoldRemainQty").value = obj[3] - obj[7];
                                     if ((obj[3] - obj[7])<1) {
-                                        document.getElementById("txtSoldRemainQty").value = obj[3] - obj[7];
+                                        var form = document.getElementById("buySellForm");
+                                        var elements = form.elements;
+                                        for (var i = 0, len = elements.length; i < len; ++i) {
+                                            elements[i].readOnly = true;
+                                        }
                                     }
-
-
 
                                     var el = document.getElementById("nameSuggestDIV");
                                     el.removeChild(el.firstElementChild);
@@ -282,26 +301,161 @@
                         }
                     }
 
-                    var lnk=document.getElementById('txtSoldURL');
-                    lnk.addEventListener('click',()=>{
-                        window.location.href = lnk.getAttribute('value');
-                    });
+                    function readChangeSellUnit(){
+                        var ele = document.getElementById("txtSelingUnitCost");
+                        if (ele.readOnly == false) {
+                            ele.readOnly = true;
+                        }
+                        else{
+                            ele.readOnly = false;
+                        }
+                    }
+                    function readChangeSellShipping() {
+                        var ele = document.getElementById("txtSellingShippingCost");
+                        if (ele.readOnly == false) {
+                            ele.readOnly = true;
+                        }
+                        else{
+                            ele.readOnly = false;
+                        }                        
+                    }
+
+                    function addData(){
+                        var txtSoldDate = document.getElementById("txtSoldDate").value;
+                        var txtEbayOrderID = document.getElementById("txtEbayOrderID").value;
+                        var txtAliOrderID = document.getElementById("txtAliOrderID").value;
+                        var txtTrackingID = document.getElementById("txtTrackingID").value;
+                        var txtCarrier = document.getElementById("txtCarrier").value;
+                        var txtSoldQty = document.getElementById("txtSoldQty").value;
+                        var txtSelingUnitCost = document.getElementById("txtSelingUnitCost").value;
+                        var txtSellingShippingCost = document.getElementById("txtSellingShippingCost").value;
+                        var txtPaypalCharge = document.getElementById("txtPaypalCharge").value;
+                        var txtUSD_LKR_Rate = document.getElementById("txtUSD_LKR_Rate").value;
+                        var listedItemID = document.getElementById("listedItemID").value;
+
+                        var x = "1";
+                        if (txtSoldDate == ""){
+                            x = "Sold Date feild is empty. Enter Product Sold Date."
+                        }
+                        else if (txtEbayOrderID == "") {
+                            x = "Ebay OrderID feild is empty. Enter Ebay OrderID."
+                        }
+                        else if (txtAliOrderID == "") {
+                            x = "Ali OrderID feild is empty. Enter Ali OrderID."
+                        }
+                        else if (txtTrackingID == "") {
+                            x = "Tracking ID feild is empty. Enter Tracking ID."
+                        }
+                        else if (txtCarrier == "") {
+                            x = "Carrier feild is empty. Enter Carrier)."
+                        }
+                        else if (txtSoldQty == "") {
+                            x = "Sold Qty feild is empty. Enter Sold Qty."
+                        }
+                        else if (txtSelingUnitCost == "" || txtSelingUnitCost<0) {
+                            txtSelingUnitCost = 0;
+                            x = "Unit Seling Cost invalid. Enter valide Seling Unit Cost)."
+                        }
+                        else if (txtSellingShippingCost == "" || txtSellingShippingCost<0) {
+                            txtSellingShippingCost = 0;
+                            x = "Shipping Cost invalid. Enter valide Shipping Cost)."
+                        }
+                        else if (txtPaypalCharge == "" || txtPaypalCharge < 0) {
+                            txtPaypalCharge = 0;
+                            x = "Paypal Charge invalid. Enter valide Paypal Charge)."
+                        }
+                        else if (txtUSD_LKR_Rate == "" || txtUSD_LKR_Rate<0) {
+                            txtUSD_LKR_Rate = 1;
+                            x = "USD_LKR_Rate invalid. Enter valid USD_LKR_Rate)."
+                        }
+                        if (x != 1) {
+                            alert(x);
+                        }
+                        if (x == "1") {
+                            alert(txtSoldDate + " | " + txtEbayOrderID + " | " + txtAliOrderID + " | " + txtTrackingID + " | " + txtCarrier + " | " + txtSoldQty + " | " + txtSelingUnitCost + " | " + txtSellingShippingCost + " | " + txtPaypalCharge + " | " + txtUSD_LKR_Rate + " | " + listedItemID);
+                            $.ajax({
+                                type: 'post',
+                                url: 'controll/buySellController.php', 
+                                data: {
+                                    btnAdd : 1,
+                                    txtSoldDate : txtSoldDate,
+                                    txtEbayOrderID : txtEbayOrderID,
+                                    txtAliOrderID : txtAliOrderID,
+                                    txtTrackingID : txtTrackingID,
+                                    txtCarrier : txtCarrier,
+                                    txtSoldQty : txtSoldQty,
+                                    txtSelingUnitCost : txtSelingUnitCost,
+                                    txtSellingShippingCost : txtSellingShippingCost,
+                                    txtPaypalCharge : txtPaypalCharge,
+                                    txtUSD_LKR_Rate : txtUSD_LKR_Rate,
+                                    listedItemID : listedItemID,
+                                },
+                                success: function (response) {
+                                    if (response == "0") {
+                                        alert("Details saved Successfully.");
+                                        clearAll();
+                                    }
+                                    else{
+                                        alert(response);
+                                    }
+                                }
+                            });
+                        }
+
+                        function clearAll(){
+                            document.getElementById("txtID").value = "";
+                            document.getElementById("listedItemID").value = "";
+                            document.getElementById("txtSoldItemName").value = "";
+                            document.getElementById("txtSoldURL").value = "";
+                            document.getElementById("txtSoldListedStatus").value = "";
+                            document.getElementById("txtSoldListedQty").value = "";
+                            document.getElementById("txtSoldRemainQty").value = "";
+                            document.getElementById("txtSoldUnitCost").value = "";
+                            document.getElementById("txtSoldShippingCost").value = "";                            
+                            document.getElementById("txtSoldDate").value = "";
+                            document.getElementById("txtEbayOrderID").value = "";
+                            document.getElementById("txtAliOrderID").value = "";
+                            document.getElementById("txtTrackingID").value = "";
+                            document.getElementById("txtCarrier").value = "";
+                            document.getElementById("txtSoldQty").value = "";
+                            document.getElementById("txtSelingUnitCost").value = "";
+                            document.getElementById("txtSellingShippingCost").value = "";
+                            document.getElementById("txtPaypalCharge").value = "";
+                            document.getElementById("txtUSD_LKR_Rate").value = "";
+                            document.getElementById("listedItemID").value = "";
+
+                        }
+
+                        function newClicked() {
+                            clearAll();
+                        }
+
+                        searchData(0);
+                        function searchData(data){
+                            $.ajax({
+                                type: 'post',
+                                url: 'controll/buySellController.php', 
+                                data: {
+                                    txtSearch : 1,
+                                    searchData : data,
+                                },
+                                success: function (response) {
+                                    document.getElementById("tblData").innerHTML = response;
+                                }
+                            });
+                        }
+                    }
                 </script>
 
 
 
+                <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+                <script src="assets/js/jquery.min.js"></script>
+                <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                <script src="assets/js/chart.min.js"></script>
+                <script src="assets/js/bs-init.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+                <script src="assets/js/theme.js"></script>
+            </body>
 
-
-
-
-
-            </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-            <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-            <script src="assets/js/chart.min.js"></script>
-            <script src="assets/js/bs-init.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-            <script src="assets/js/theme.js"></script>
-        </body>
-
-        </html>
+            </html>

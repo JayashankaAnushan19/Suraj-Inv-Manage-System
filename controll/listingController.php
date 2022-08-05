@@ -25,9 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		}
 		else {
 			$msg  = $conn->error;
-			if ($msg = "%Duplicate%") {
-				$msg = 1;
-			}
 			echo ($msg);
 		}
 	}

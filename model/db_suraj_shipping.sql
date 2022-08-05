@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 01, 2022 at 07:30 AM
+-- Generation Time: Aug 05, 2022 at 05:48 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -36,11 +36,20 @@ CREATE TABLE `tb_buyandsell` (
   `buyAndSell_TrackingID` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `buyAndSell_Carrier` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `buyAndSell_Qty` int(11) DEFAULT NULL,
+  `buyAndSell_SellingUnitCostUSD` int(11) NOT NULL,
+  `buyAndSell_SellingShippingCostUSD` int(11) NOT NULL,
   `buyAndSell_PaypalCharge_USD` int(11) DEFAULT NULL,
   `buyAndSell_USD_LKR_Rate` int(11) DEFAULT NULL,
   `tb_mylisting_mylisting_ID` int(11) NOT NULL,
   `buyAndSell_active` varchar(1) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `tb_buyandsell`
+--
+
+INSERT INTO `tb_buyandsell` (`buyAndSell_ID`, `buyAndSell_PaidDate`, `buyAndSell_Ebay_OrderID`, `buyAndSell_Ali_OrderID`, `buyAndSell_TrackingID`, `buyAndSell_Carrier`, `buyAndSell_Qty`, `buyAndSell_SellingUnitCostUSD`, `buyAndSell_SellingShippingCostUSD`, `buyAndSell_PaypalCharge_USD`, `buyAndSell_USD_LKR_Rate`, `tb_mylisting_mylisting_ID`, `buyAndSell_active`) VALUES
+(1, '2022-08-02 00:00:00', '12', '12', '23', '12', 23, 0, 0, 12, 21, 1, '1');
 
 -- --------------------------------------------------------
 
@@ -79,8 +88,8 @@ CREATE TABLE `tb_mylisting` (
 INSERT INTO `tb_mylisting` (`mylisting_ID`, `mylisting_Name`, `mylisting_Status`, `mylisting_URL`, `mylisting_List_Qty`, `mylisting_UnitPrice_USD`, `mylisting_ShippingCost_USD`, `mylisting_active`) VALUES
 (1, 'Jayashanka Anushan', '0', 'https://www.tinkercad.com/dashboard?type=circuits&collection=designs', 23, 4234, 34234, '1'),
 (2, 'Shan Akila Jayashanka', '1', 'qwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewr', 23, 123, 434, '1'),
-(3, 'Updated Akila Details Jayashanka', '1', 'Updated Details', 0, 0, 0, '0'),
-(4, 'Anushan Details Shampoo Akila', '0', 'qwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewr', 34, 43, 34, '0');
+(3, 'Updated Akila Details Jayashanka', '0', 'Updated Details', 111, 11, 25, '1'),
+(4, 'Anushan Details Shampoo Akila', '0', 'qwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewrqwqwewrwererqewr', 34, 43, 34, '1');
 
 --
 -- Indexes for dumped tables
@@ -113,7 +122,7 @@ ALTER TABLE `tb_mylisting`
 -- AUTO_INCREMENT for table `tb_buyandsell`
 --
 ALTER TABLE `tb_buyandsell`
-  MODIFY `buyAndSell_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `buyAndSell_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tb_mylisting`
