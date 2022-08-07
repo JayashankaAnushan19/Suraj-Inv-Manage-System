@@ -31,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	//Search data to table
 	if (isset($_POST['txtSearch'])) {
-		$searchData = $_POST['searchData'];
-		if ($searchData == 0) {
+		$searchData = strtolower($_POST['searchData']);
+		if ($searchData == 1) {
 			$searchSql = "SELECT * FROM `db_suraj_shipping`.`tb_mylisting` WHERE `mylisting_active`='1'";
 		}
 		else{
-			$searchSql = "SELECT * FROM `db_suraj_shipping`.`tb_mylisting` WHERE `mylisting_Name` LIKE '%$searchData%' AND `mylisting_active`='1' LIMIT 5";
+			$searchSql = "SELECT * FROM `db_suraj_shipping`.`tb_mylisting` WHERE LOWER(`mylisting_Name`) LIKE '%$searchData%' AND `mylisting_active`='1' LIMIT 5";
 		}
 
 		$query = mysqli_query($conn, $searchSql);
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			echo "<tr><td colspan='8' style='text-align=center;'>Database Err. Please contact system admin.</td></tr>";
 		}
 		else{
-			$no = 1;
+			$no = 1; 
 			while($row = mysqli_fetch_assoc($query))
 			{
 				if ($row['mylisting_Status'] == 0) {
