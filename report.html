@@ -105,6 +105,41 @@
                         </div>
                     </div>
 
+                    <!-- Daily report -->
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold">Stock Availability &nbsp;&nbsp;
+                                <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('salesSection', this)" value=" Show ">
+                            </p>
+                        </div>
+                        <div class="card-body" id="salesSection" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap"></div>
+                                <div class="col-md-6">
+                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label>
+                                        <input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" onkeyup="stockSearch(this.value)">
+                                    </label></div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Listed Qty</th>
+                                            <th>Sold Qty</th>
+                                            <th>Remain Qty</th>
+                                            <th>Show More</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stockBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -154,7 +189,7 @@
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/chart.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script src="assets/js/bs-init.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
         <script src="assets/js/theme.js"></script>
