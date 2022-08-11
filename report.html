@@ -105,40 +105,61 @@
                         </div>
                     </div>
 
-                    <!-- Daily report -->
+                    <!-- Daily Sales report -->
                     <div class="card shadow">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold">Stock Availability &nbsp;&nbsp;
+                            <p class="text-primary m-0 font-weight-bold">Daily Sales &nbsp;&nbsp;
                                 <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('salesSection', this)" value=" Show ">
                             </p>
                         </div>
-                        <div class="card-body" id="salesSection" style="display: none;">
+                        <div class="card-body" id="salesSection" style="display: block;">
                             <div class="row">
-                                <div class="col-md-6 text-nowrap"></div>
-                                <div class="col-md-6">
-                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label>
-                                        <input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" onkeyup="stockSearch(this.value)">
-                                    </label></div>
+                                <div class="col-md">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="txtListQty">
+                                                    <strong>Listed Qty</strong>
+                                                </label>
+                                                <select class="form-control" id="slctAllNamesForDaily" name="slctAllNamesForDaily">
+                                                    <!-- Will load all the names for daily sales -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong> From </strong>
+                                                </label>
+                                                <input class="form-control" value='2022-01-01'  type="date" id="dailySalesFrom" name="dailySalesFrom">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong> To </strong>
+                                                </label>
+                                                <input class="form-control" value='2022-01-01'  type="date" id="dailySaleTo" name="dailySaleTo">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong>&nbsp;</strong>
+                                                </label>
+                                                <button class=" form-control btn btn-success" id="btnAdd" name="btnAdd" onclick="showDailySales()">Show&nbsp;</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Name</th>
-                                            <th>Listed Qty</th>
-                                            <th>Sold Qty</th>
-                                            <th>Remain Qty</th>
-                                            <th>Show More</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="stockBody">
-                                    </tbody>
-                                </table>
+                            <div class="">
+                                <div class="" id="dailySales" style="height: 400px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
+
+
 
                 </div>
             </div>
@@ -183,8 +204,145 @@
                     });
                 }
             } 
-            
+
+            function loadNamesToSales(){                
+                $.ajax({
+                    type: 'post',
+                    url: 'controll/ReportController.php', 
+                    data: {
+                        loadNamesToSales : 1,
+                    },
+                    success: function (response) {
+                        document.getElementById("slctAllNamesForDaily").innerHTML = response;
+                    }
+                });
+            }
+            loadNamesToSales();
+
+            function showDailySales() {
+
+                var From = document.getElementById("dailySalesFrom").value;
+                var To = document.getElementById("dailySaleTo").value;
+                var select = document.getElementById('slctAllNamesForDaily');
+                var selectedItemID = select.options[select.selectedIndex].value;
+
+                console.log(From); 
+                console.log(To); 
+                console.log(selectedItemID); 
+
+                $.ajax({
+                    type: 'post',
+                    url: 'controll/ReportController.php', 
+                    data: {
+                        showDailySales : 1,
+                        From : From,
+                        To : To,
+                        selectedItemID : selectedItemID,
+                    },
+                    success: function (response) {
+                        document.getElementById("dailySales").innerHTML = response;
+                    }
+                });
+
+
+            }
+
+
         </script>
+<!--         <script>
+            function createData(getData){
+                var j = {
+                    type: "line",
+                    name: "CPU Utilization",
+                    connectNullData: true,
+                    nullDataLineDashType: "solid",
+                    xValueType: "number",
+                    dataPoints: getData
+                };
+                return j;
+            }
+            var x = [
+            { x: 15010486, y: 35.939 },
+            { x: 15010522, y: 40.896 },
+            { x: 15010558, y: 56.625 },
+            { x: 15010594, y: 26.003 },
+            { x: 15010630, y: null },
+            { x: 15010666, y: null },
+            { x: 15010702, y: 23.508 },
+            { x: 15010738, y: 18.577 },
+            { x: 15010774, y: 15.918 },
+            { x: 15010810, y: null }, 
+            { x: 15010846, y: 10.314 },
+            { x: 15010882, y: 10.574 },
+            { x: 15010918, y: 14.422 },
+            { x: 15010954, y: 18.576 },
+            { x: 15010990, y: 22.342 },
+            { x: 15011026, y: 22.836 },
+            { x: 15011062, y: 23.220 },
+            { x: 15011098, y: 23.594 },
+            { x: 15011134, y: 24.596 },
+            { x: 15011170, y: 31.947 },
+            { x: 15011206, y: 31.142 }
+            ]
+            var y = [
+            { x: 15010486, y: 32.939 },
+            { x: 15010522, y: 45.896 },
+            { x: 15010558, y: null },
+            { x: 15010594, y: 28.003 },
+            { x: 15010630, y: 25.376 },
+            { x: 15010666, y: 39.774 },
+            { x: 15010702, y: 13.508 },
+            { x: 15010738, y: 10.577 },
+            { x: 15010774, y: 18.918 },
+            { x: 15010810, y: null },
+            { x: 15010846, y: 15.314 },
+            { x: 15010882, y: 30.574 },
+            { x: 15010918, y: 15.422 },
+            { x: 15010954, y: 19.576 },
+            { x: 15010990, y: 23.342 },
+            { x: 15011026, y: 40.836 },
+            { x: 15011062, y: 29.220 },
+            { x: 15011098, y: 13.594 },
+            { x: 15011134, y: 14.596 },
+            { x: 15011170, y: 38.947 },
+            { x: 15011206, y: 31.142 }
+            ]
+            function chartShow(gotDataSet1, gotDataSet2){
+                var j = "";
+                if (arguments.length > 1) {
+                    for (var i = 0; i < arguments.length; i++) {
+                        j += (arguments[i]) + ",";
+                    }
+                }
+                window.onload = function() {
+
+                    var chart = new CanvasJS.Chart("dailySales", {
+                        animationEnabled: true,
+                        title: {
+                            text: " "
+                        },
+                        axisX: {
+                            title: "Value"
+                        },
+                        axisY: {
+                            title: "Qty",
+                            suffix: "",
+                            includeZero: true
+                        },
+                        data: [gotDataSet1, gotDataSet2]
+                    });
+                    chart.render();
+                    document.querySelector(".canvasjs-chart-credit").remove();
+                }
+            }
+            chartShow(createData(x), createData(y));
+
+        </script>
+         -->
+
+
+
+
 
 
         <script src="assets/js/jquery.min.js"></script>

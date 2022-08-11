@@ -1,0 +1,54 @@
+<script> window.onload = function() {
+
+			var chart = new CanvasJS.Chart('dailySales', {
+				animationEnabled: true,
+				title: {
+					text: 'Hourly Average CPU Utilization'
+					},
+					axisX: {
+						title: 'Value'
+						},
+						axisY: {
+							title: 'Qty',
+							suffix: '',
+							includeZero: true
+							},
+							legend: {
+								cursor: 'pointer',
+								verticalAlign: 'bottom',
+								horizontalAlign: 'center',
+								dockInsidePlotArea: false,
+								},
+								data: [{
+											type:'line',
+											axisYType: 'primary',
+											name: 'Anushan Details Shampoo Akila',
+											showInLegend: true,
+											markerSize: 0,
+											connectNullData: true,
+											nullDataLineDashType: 'solid',
+											xValueType: 'number',
+											lineThickness: 3,
+											dataPoints: [{ x: 0, y: 0 }]},{
+											type:'line',
+											axisYType: 'primary',
+											name: 'Jayashanka Anushan',
+											showInLegend: true,
+											markerSize: 0,
+											connectNullData: true,
+											nullDataLineDashType: 'solid',
+											xValueType: 'number',
+											lineThickness: 3,
+											dataPoints: [{ x: 1970-01-01, y: 10 },{ x: 1970-01-01, y: 1 }, ]},{
+											type:'line',
+											axisYType: 'primary',
+											name: 'Shan Akila Jayashanka',
+											showInLegend: true,
+											markerSize: 0,
+											connectNullData: true,
+											nullDataLineDashType: 'solid',
+											xValueType: 'number',
+											lineThickness: 3,
+											dataPoints: [{ x: 0, y: 0 }]},]});
+									chart.render();
+								} </script>

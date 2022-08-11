@@ -4,7 +4,7 @@ require_once '../model/connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-
+	//Load stock and view
 	if (isset($_POST['stockSearch'])) {
 		$stockSearchTXT = strtolower($_POST['stockSearchTXT']);
 
@@ -62,7 +62,132 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	}
 
+	//Load names to options
+	if (isset($_POST['loadNamesToSales'])) {
+		
+		$data;
+
+		if ($_POST['loadNamesToSales'] == 1) {
+			$data = "<option value='-3'>AJAX Works</option>";
+		}
+
+		$loadDataNamesToSalesSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+
+		$loadDataNamesToSalesQuery = mysqli_query($conn, $loadDataNamesToSalesSQL);
+
+		if (mysqli_num_rows($loadDataNamesToSalesQuery) < 1 ) {
+			$data = "<option value='-1'>No Data</option>";
+		}
+		elseif ($conn->error) {
+			$data = "<option value='-2'>Connection Error</option>";
+		}
+		else{
+			$data = "<option value='0'> - All - </option>";
+
+			while($row = mysqli_fetch_assoc($loadDataNamesToSalesQuery))
+			{				
+				$data .= "<option value='".$row['mylisting_ID']."'>".$row['mylisting_Name']."</option>";				
+			}			
+		}
+
+		echo $data;	
+	}
+
+	//Daily sales as a chart
+	if (isset($_POST['showDailySales'])) {
+		$From = $_POST['From'];
+		$To = $_POST['To'];
+		$selectedItemID = $_POST['selectedItemID'];
+
+		$data;
+		$dataSet;
+
+		$chart = "<script> window.onload = function() {
+
+			var chart = new CanvasJS.Chart('dailySales', {
+				animationEnabled: true,
+				title: {
+					text: 'Hourly Average CPU Utilization'
+					},
+					axisX: {
+						title: 'Value'
+						},
+						axisY: {
+							title: 'Qty',
+							suffix: '',
+							includeZero: true
+							},
+							legend: {
+								cursor: 'pointer',
+								verticalAlign: 'bottom',
+								horizontalAlign: 'center',
+								dockInsidePlotArea: false,
+								},
+								data: [";
 
 
-}
-?>
+								if ($selectedItemID != 0) {
+									$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' AND `mylisting_ID`='$selectedItemID' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+								}
+								else{
+									$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+								}
+
+								$loadDataNamesToSalesQuery = mysqli_query($conn, $loadNameandIDsSQL);
+								if (mysqli_num_rows($loadDataNamesToSalesQuery) > 0) {
+									$Products;
+									$no = 0;
+									while($row = mysqli_fetch_assoc($loadDataNamesToSalesQuery))
+									{
+										$Products[$no][0] = $row['mylisting_ID'];
+										$Products[$no][1] = $row['mylisting_Name'];	
+										$no++;			
+									}
+
+									for ($j=0; $j < count($Products); $j++) { 
+										$prdctName = $Products[$j][1];
+										$data = "{
+											type:'line',
+											axisYType: 'primary',
+											name: '".$prdctName."',
+											showInLegend: true,
+											markerSize: 0,
+											connectNullData: true,
+											nullDataLineDashType: 'solid',
+											xValueType: 'number',
+											lineThickness: 3,
+											dataPoints: [";
+
+											$dataSet ="";
+											$prdctID = $Products[$j][0];
+
+											$findSalesSQL = "SELECT * FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID` = '$prdctID' AND `buyAndSell_active`='1' AND (`buyAndSell_PaidDate` BETWEEN '$From' AND '$To')";
+
+											$findSalesQuery = mysqli_query($conn, $findSalesSQL);
+											if (mysqli_num_rows($findSalesQuery) > 0){
+												while($row1 = mysqli_fetch_assoc($findSalesQuery)) {
+													$today = date("Y-m-d",strtotime($row['buyAndSell_PaidDate']));
+													$dataSet .= "{ x: ".$today.", y: ".$row1['buyAndSell_Qty']." },";
+												}
+												$dataSet .= " ]";
+											}
+											else{
+												$dataSet .= "{ x: 0, y: 0 }]";
+											}
+											$data .= $dataSet;
+											$data .= "},";
+											$chart .= $data;
+										}
+									}
+
+									$chart .= "]});
+									chart.render();
+								} </script>";
+
+								echo $chart;
+							}
+
+
+
+						}
+					?>
