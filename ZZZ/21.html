@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<style type="text/css">
+		#chartHome{
+			width: 75%;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="chartHome">
+		<canvas id="myChart"></canvas>
+	</div>
+
+	<script>
+		const labels = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		];
+
+		const data = {
+			labels: labels,
+			datasets: [{
+				label: 'My First dataset',
+				backgroundColor: 'rgb(255, 99, 132)',
+				borderColor: 'rgb(255, 99, 132)',
+				data: [2, 25, 5, 2, 20, 30, 45],
+				tension: 0.2
+			},{
+				label: 'My Second dataset',
+				backgroundColor: 'rgb(145, 89, 122)',
+				borderColor: 'rgb(145, 109, 112)',
+				data: [10, null, 15, 12, 10, 35, 55],
+				tension: 0.2
+			},{
+				label: 'My Third dataset',
+				backgroundColor: 'rgb(045, 89, 122)',
+				borderColor: 'rgb(235, 119, 102)',
+				data: [20, 5, 25, 22, 0, 40, 65],
+				tension: 0.2
+			}]
+		};
+
+		const config = {
+			type: 'line',
+			data: data,
+			options: {}
+		};
+
+		const myChart = new Chart(document.getElementById('myChart'), config);
+		</script>
+
+	</body>
+	</html>
