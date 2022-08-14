@@ -70,41 +70,6 @@
                 <div class="container-fluid">
 
 
-                    <!-- Stock Availability -->
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold">Stock Availability &nbsp;&nbsp;
-                                <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('stockSection', this)" value=" Show ">
-                            </p>
-                        </div>
-                        <div class="card-body" id="stockSection" style="display: none;">
-                            <div class="row">
-                                <div class="col-md-6 text-nowrap"></div>
-                                <div class="col-md-6">
-                                    <div class="text-md-right dataTables_filter" id="dataTable_filter"><label>
-                                        <input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search" onkeyup="stockSearch(this.value)">
-                                    </label></div>
-                                </div>
-                            </div>
-                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Name</th>
-                                            <th>Listed Qty</th>
-                                            <th>Sold Qty</th>
-                                            <th>Remain Qty</th>
-                                            <th>Show More</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="stockBody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Daily Sales report -->
                     <div class="card shadow">
                         <div class="card-header py-3">
@@ -177,80 +142,13 @@
             var xData = [
             { x: new Date(2020,11,11), y: 35.939 },
             { x: new Date(2020,11,12), y: 40.896 },
-            { x: new Date(2020,11,13), y: 56.625 },
-            { x: new Date(2020,11,14), y: 26.003 },
             { x: new Date(2020,11,15), y: null }
             ];
             var yData = [
             { x: new Date(2020,11,11), y: 10 },
             { x: new Date(2020,11,12), y: 45.896 },
-            { x: new Date(2020,11,13), y: null },
-            { x: new Date(2020,11,14), y: 28.003 },
-            { x: new Date(2020,11,15), y: 25.376 }
+            { x: new Date(2020,11,13), y: null }
             ];
-            var zData = [
-            { x: new Date(2020,11,11), y: 0 },
-            { x: new Date(2020,11,12), y: 50.896 },
-            { x: new Date(2020,11,13), y: 16.625 },
-            { x: new Date(2020,11,14), y: 0.003 },
-            { x: new Date(2020,11,15), y: null }
-            ];
-            var wData = [
-            { x: new Date(2020,11,11), y: 35.939 },
-            { x: new Date(2020,11,12), y: 50.896 },
-            { x: new Date(2020,11,13), y: 16.625 },
-            { x: new Date(2020,11,14), y: 0.003 },
-            { x: new Date(2020,11,15), y: null }
-            ];
-
-
-
-            function callByID(id, ele){
-                var x = document.getElementById(id);            
-                if (x.style.display == 'none') {
-                    x.style.display = '';
-                    $(ele).attr('value', " Hide ");
-                }
-                else{
-                    x.style.display = 'none';
-                    $(ele).attr('value', " Show ");
-                }
-            }
-
-            stockSearch(1);
-            function stockSearch(data){
-                if (data == "") {
-                    stockSearch(1);
-                }
-                else{
-                    $.ajax({
-                        type: 'post',
-                        url: 'controll/ReportController.php', 
-                        data: {
-                            stockSearch : 1,
-                            stockSearchTXT : data,
-                        },
-                        success: function (response) {
-                            document.getElementById("stockBody").innerHTML = response;
-                        }
-                    });
-                }
-            } 
-
-            function loadNamesToSales(){                
-                $.ajax({
-                    type: 'post',
-                    url: 'controll/ReportController.php', 
-                    data: {
-                        loadNamesToSales : 1,
-                    },
-                    success: function (response) {
-                        document.getElementById("slctAllNamesForDaily").innerHTML = response;
-                    }
-                });
-            }
-            loadNamesToSales();
-
 
             function showDailySales() 
             {
@@ -277,7 +175,7 @@
                     {
                         if (response) {
                             console.log("Response arrived");
-                            viewPoint(); 
+                            drawChart(); 
                         }
                     }
                 });
@@ -291,28 +189,19 @@
             
 
 
-            function viewPoint(){                
+            function drawChart(){                
                 var arr = new Array;
                 var chartLocationID = "chartContainerSales";
                 var chartTopic = "Chart Topic";
                 var xAxisTitle = "Type code";
                 var yAxixTitle = "Qty";
 
-                console.log(xData);
-                console.log(yData);
-                console.log(zData);
-
-                arr.push(createData(xData, 'MyName'));
-                arr.push(createData(yData, 'YourName'));
-                arr.push(createData(zData, 'Dog'));
-                arr.push(createData(wData, 'New Goat'));
-
-                console.log(arr);
+                arr.push(createData(xData, 'Apple'));
+                arr.push(createData(yData, 'Orange'));
                 
                 chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr);
             }
 
-            //Data set create function for create a chart
             function createData(getData, Name){
                 var j = {
                     type:"line",
@@ -321,7 +210,6 @@
                     showInLegend: true,
                     markerSize: 0,
                     connectNullData: true,
-                    // nullDataLineDashType: "solid",
                     xValueType: "number",
                     lineThickness: 3,
                     dataPoints: getData,                
@@ -329,7 +217,6 @@
                 return j;
             }
 
-            //Chart create function
             function chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr){
 
                 var chartLocationID = chartLocationID;          
@@ -364,7 +251,7 @@
                 }
             }
 
-            // viewPoint();
+            drawChart();
 
 
 

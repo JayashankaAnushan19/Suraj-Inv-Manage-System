@@ -102,92 +102,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$data;
 		$dataSet;
 
-		$chart = "<script> window.onload = function() {
+		if ($selectedItemID != 0) {
+			$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' AND `mylisting_ID`='$selectedItemID' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+		}
+		else{
+			$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+		}
+		$chartData;		
+		$loadDataNamesToSalesQuery = mysqli_query($conn, $loadNameandIDsSQL);
+		if (mysqli_num_rows($loadDataNamesToSalesQuery) > 0) {
+			$Products;
+			$no = $mainNo = 0;
+			while($row = mysqli_fetch_assoc($loadDataNamesToSalesQuery))
+			{
+				$Products[$no][0] = $row['mylisting_ID'];
+				$Products[$no][1] = $row['mylisting_Name'];	
+				$no++;			
+			}
 
-			var chart = new CanvasJS.Chart('dailySales', {
-				animationEnabled: true,
-				title: {
-					text: 'Hourly Average CPU Utilization'
-					},
-					axisX: {
-						title: 'Value'
-						},
-						axisY: {
-							title: 'Qty',
-							suffix: '',
-							includeZero: true
-							},
-							legend: {
-								cursor: 'pointer',
-								verticalAlign: 'bottom',
-								horizontalAlign: 'center',
-								dockInsidePlotArea: false,
-								},
-								data: [";
+			for ($j=0; $j < count($Products); $j++) { 
+				$prdctName = $Products[$j][1];				
+				$prdctID = $Products[$j][0];
 
+				
+				$chartData[$mainNo][0] = $prdctName;
 
-								if ($selectedItemID != 0) {
-									$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' AND `mylisting_ID`='$selectedItemID' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
-								}
-								else{
-									$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
-								}
+				$findSalesSQL = "SELECT * FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID` = '$prdctID' AND `buyAndSell_active`='1' AND (`buyAndSell_PaidDate` BETWEEN '$From' AND '$To')";
 
-								$loadDataNamesToSalesQuery = mysqli_query($conn, $loadNameandIDsSQL);
-								if (mysqli_num_rows($loadDataNamesToSalesQuery) > 0) {
-									$Products;
-									$no = 0;
-									while($row = mysqli_fetch_assoc($loadDataNamesToSalesQuery))
-									{
-										$Products[$no][0] = $row['mylisting_ID'];
-										$Products[$no][1] = $row['mylisting_Name'];	
-										$no++;			
-									}
+				$findSalesQuery = mysqli_query($conn, $findSalesSQL);
 
-									for ($j=0; $j < count($Products); $j++) { 
-										$prdctName = $Products[$j][1];
-										$data = "{
-											type:'line',
-											axisYType: 'primary',
-											name: '".$prdctName."',
-											showInLegend: true,
-											markerSize: 0,
-											connectNullData: true,
-											nullDataLineDashType: 'solid',
-											xValueType: 'number',
-											lineThickness: 3,
-											dataPoints: [";
+				
+				$dataCollect;
 
-											$dataSet ="";
-											$prdctID = $Products[$j][0];
+				if (mysqli_num_rows($findSalesQuery) > 0){
+					$i=0;
+					while($row1 = mysqli_fetch_assoc($findSalesQuery)) {
+						
+						$date = date("Y,m,d",strtotime($row1['buyAndSell_PaidDate']));
+						$chartData[$mainNo][1][$i][0] = $date;
+						$chartData[$mainNo][1][$i][1]= $row1['buyAndSell_Qty'];
 
-											$findSalesSQL = "SELECT * FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID` = '$prdctID' AND `buyAndSell_active`='1' AND (`buyAndSell_PaidDate` BETWEEN '$From' AND '$To')";
-
-											$findSalesQuery = mysqli_query($conn, $findSalesSQL);
-											if (mysqli_num_rows($findSalesQuery) > 0){
-												while($row1 = mysqli_fetch_assoc($findSalesQuery)) {
-													$today = date("Y-m-d",strtotime($row['buyAndSell_PaidDate']));
-													$dataSet .= "{ x: ".$today.", y: ".$row1['buyAndSell_Qty']." },";
-												}
-												$dataSet .= " ]";
-											}
-											else{
-												$dataSet .= "{ x: 0, y: 0 }]";
-											}
-											$data .= $dataSet;
-											$data .= "},";
-											$chart .= $data;
-										}
-									}
-
-									$chart .= "]});
-									chart.render();
-								} </script>";
-
-								echo $chart;
-							}
+						$i++;					
+					}
+				}
+				else{
+					$date = date("Y-m-d");
+					$chartData[$mainNo][1][0][0] = $date;
+					$chartData[$mainNo][1][0][1] = 0;
+				}
+				$mainNo++;
+			}
+			
+		}
+		echo json_encode($chartData);
+	}
 
 
 
-						}
-					?>
+}
+?>

@@ -12,7 +12,7 @@
 				connectNullData: true,
 				// nullDataLineDashType: "solid",
 				xValueType: "number",
-				lineThickness: 3
+				lineThickness: 3,
 				dataPoints: getData,				
 			};
 			return j;
@@ -86,10 +86,23 @@
 		{ x: 15011170, y: 38.947 },
 		{ x: 15011206, y: 31.142 }
 		]
-		function chartShow(gotDataSet1, gotDataSet2, gotDataSet3){
+		function chartShow(){
+			var chartName;
+			var x = new Array;
+			for (var i = 0; i < arguments.length; i++) {
+				if (i != 0) {
+					console.log(arguments[i]);
+					x.push(arguments[i]);
+				}
+				else{
+					console.log(arguments[0]);
+					chartName = arguments[0];
+				}
+			}
+
 			window.onload = function() {
 
-				var chart = new CanvasJS.Chart("chartContainer", {
+				var chart = new CanvasJS.Chart(chartName, {
 					animationEnabled: true,
 					title: {
 						text: "Hourly Average CPU Utilization"
@@ -108,13 +121,19 @@
 						horizontalAlign: "center",
 						dockInsidePlotArea: false,
 					},
-					data: [gotDataSet1, gotDataSet2, gotDataSet3]
+					data:x 
 				});
 				chart.render();
 				document.querySelector(".canvasjs-chart-credit").remove();
 			}
 		}
-		chartShow(createData(x, 'MyName'), createData(y, 'YourName'), createData(z, 'Dog'));
+		//Number of createData() functions will be change.
+		//
+		chartShow("chartContainer", createData(x, 'MyName'), createData(y, 'YourName'), createData(z, 'Dog'));
+
+		$("#chartContainer").find('a').each(function () {
+			$(this).attr('readonly', true);
+		});
 
 	</script>
 </head>

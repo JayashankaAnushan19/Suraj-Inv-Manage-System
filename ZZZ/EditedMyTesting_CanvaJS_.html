@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script>
+		function createData(getData, Name){
+			var j = {
+				type:"line",
+				axisYType: "primary",
+				name: Name,
+				showInLegend: true,
+				markerSize: 0,
+				connectNullData: true,
+				// nullDataLineDashType: "solid",
+				xValueType: "number",
+				lineThickness: 3,
+				dataPoints: getData,				
+			};
+			return j;
+		} 
+		
+		var x = [
+		{ x: new Date(2020,11,11), y: 35.939 },
+		{ x: new Date(2020,11,12), y: 40.896 },
+		{ x: new Date(2020,11,13), y: 56.625 },
+		{ x: new Date(2020,11,14), y: 26.003 },
+		{ x: new Date(2020,11,15), y: null }
+		]
+		var y = [
+		{ x: new Date(2020,11,11), y: 10 },
+		{ x: new Date(2020,11,12), y: 45.896 },
+		{ x: new Date(2020,11,13), y: null },
+		{ x: new Date(2020,11,14), y: 28.003 },
+		{ x: new Date(2020,11,15), y: 25.376 }
+		]
+		var z = [
+		{ x: new Date(2020,11,11), y: 0 },
+		{ x: new Date(2020,11,12), y: 50.896 },
+		{ x: new Date(2020,11,13), y: 16.625 },
+		{ x: new Date(2020,11,14), y: 0.003 },
+		{ x: new Date(2020,11,15), y: null }
+		]
+		var w = [
+		{ x: new Date(2020,11,11), y: 35.939 },
+		{ x: new Date(2020,11,12), y: 50.896 },
+		{ x: new Date(2020,11,13), y: 16.625 },
+		{ x: new Date(2020,11,14), y: 0.003 },
+		{ x: new Date(2020,11,15), y: null }
+		]
+
+		// if (response) {
+			// Come as a '[][][]' array
+			// var newArr = new Array;
+			// for (var i = 0; i < newArr.length-1; i++) {
+			// 	    create data var
+			//		add data var to newArr =>=>   arr.push(createData(x, 'MyName'));
+			// }
+		// }
+
+
+		function chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr){
+			var chartLocationID = chartLocationID;			
+			console.log(arr);
+			window.onload = function() {
+
+				var chart = new CanvasJS.Chart(chartLocationID, {
+					animationEnabled: true,
+					title: {
+						text: chartTopic
+					},
+					axisX: {
+						title: xAxisTitle,						
+						valueFormatString: "YYYY-MMM-D",
+						interval:1,
+						intervalType: "day"
+					},
+					axisY: {
+						title: yAxixTitle,
+						// minimum: 0,
+						suffix: "",
+						includeZero: true
+					},
+					legend: {
+						cursor: "pointer",
+						verticalAlign: "bottom",
+						horizontalAlign: "center",
+						dockInsidePlotArea: true,
+					},
+					data:arr 
+				});
+				chart.render();
+				document.querySelector(".canvasjs-chart-credit").remove();
+			}
+			// $("#"+chartLocationID+"").find('a').each(function () {
+			// 	$(this).attr('readonly', true);
+			// });
+			chart.axisX[0].set("minimum", chart.options.data[0].dataPoints[0].x);
+		}
+
+		function viewPoint(){
+			var arr = new Array;
+			chartLocationID = "chartContainer";
+			var chartTopic = "Chart Topic";
+			var xAxisTitle = "Type code";
+			var yAxixTitle = "Qty";
+
+			// Loop part
+			arr.push(createData(x, 'MyName'));
+			arr.push(createData(y, 'YourName'));
+			arr.push(createData(z, 'Dog'));
+			arr.push(createData(w, 'New Goat'));
+			
+
+			chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr);
+		}
+
+		viewPoint();
+		
+
+	</script>
+</head>
+<body>
+	<div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
