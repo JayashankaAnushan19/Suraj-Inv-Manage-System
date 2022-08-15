@@ -105,21 +105,21 @@
                         </div>
                     </div>
 
-                    <!-- Daily Sales report -->
+                    <!-- Daily Sales -->
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 font-weight-bold">Daily Sales &nbsp;&nbsp;
-                                <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('salesSection', this)" value=" Show ">
+                                <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('dailySalesSection', this)" value=" Show ">
                             </p>
                         </div>
-                        <div class="card-body" id="salesSection" style="display: block;">
+                        <div class="card-body" id="dailySalesSection" style="display: none;">
                             <div class="row">
                                 <div class="col-md">
                                     <div class="form-row">
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="txtListQty">
-                                                    <strong>Listed Qty</strong>
+                                                    <strong>Items</strong>
                                                 </label>
                                                 <select class="form-control" id="slctAllNamesForDaily" name="slctAllNamesForDaily">
                                                     <!-- Will load all the names for daily sales -->
@@ -131,7 +131,7 @@
                                                 <label for="email">
                                                     <strong> From </strong>
                                                 </label>
-                                                <input class="form-control" value='2020-01-01'  type="date" id="dailySalesFrom" name="dailySalesFrom">
+                                                <input class="form-control" value='2022-01-01'  type="date" id="dailySalesFrom" name="dailySalesFrom">
                                             </div>
                                         </div>
                                         <div class="col">
@@ -139,7 +139,7 @@
                                                 <label for="email">
                                                     <strong> To </strong>
                                                 </label>
-                                                <input class="form-control" value='2030-01-01'  type="date" id="dailySaleTo" name="dailySaleTo">
+                                                <input class="form-control" value='2022-01-01'  type="date" id="dailySaleTo" name="dailySaleTo">
                                             </div>
                                         </div>
                                         <div class="col">
@@ -149,16 +149,87 @@
                                                 </label>
                                                 <button class=" form-control btn btn-success" id="btnAdd" name="btnAdd" onclick="showDailySales()">Show&nbsp;</button>
                                             </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    Note: All items without even a single sale will be shown as zero value under the current date.
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="">
-                                <div class="" id="chartContainerSales" style="height: 400px; width: 100%;"></div>
+                                <div class="" id="chartContainerDailySales" style="height: 400px; width: 100%;"></div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Monthly Sales -->
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold">Monthly Sales &nbsp;&nbsp;
+                                <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('monthlySalesSection', this)" value=" Show ">
+                            </p>
+                        </div>
+                        <div class="card-body" id="monthlySalesSection" style="display: block;">
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="txtListQty">
+                                                    <strong>Items</strong>
+                                                </label>
+                                                <select class="form-control" id="slctAllNamesForMonthly" name="slctAllNamesForMonthly">
+                                                    <!-- Will load all the names for daily sales -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong>From</strong>
+                                                </label>
+                                                <input class="form-control" value='2022-01-01'  type="month" id="MonthlySalesFrom" name="MonthlySalesFrom">
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong> To </strong>
+                                                </label>
+                                                <input class="form-control" value='2022-01-01'  type="month" id="MonthlySaleTo" name="MonthlySaleTo" >
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    <strong>&nbsp;</strong>
+                                                </label>
+                                                <button class=" form-control btn btn-success" id="btnAdd" name="btnAdd" onclick="showMonthlySales()">Show&nbsp;</button>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="form-group">                                      
+                                                <label for="email">
+                                                    Note: All items without even a single sale will be shown as zero value under the current date.
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="" id="chartContainerMonthlySales" style="height: 400px; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>
@@ -173,38 +244,6 @@
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
 
         <script>
-
-            var xData = [
-            { x: new Date(2020,11,11), y: 35.939 },
-            { x: new Date(2020,11,12), y: 40.896 },
-            { x: new Date(2020,11,13), y: 56.625 },
-            { x: new Date(2020,11,14), y: 26.003 },
-            { x: new Date(2020,11,15), y: null }
-            ];
-            var yData = [
-            { x: new Date(2020,11,11), y: 10 },
-            { x: new Date(2020,11,12), y: 45.896 },
-            { x: new Date(2020,11,13), y: null },
-            { x: new Date(2020,11,14), y: 28.003 },
-            { x: new Date(2020,11,15), y: 25.376 }
-            ];
-            var zData = [
-            { x: new Date(2020,11,11), y: 0 },
-            { x: new Date(2020,11,12), y: 50.896 },
-            { x: new Date(2020,11,13), y: 16.625 },
-            { x: new Date(2020,11,14), y: 0.003 },
-            { x: new Date(2020,11,15), y: null }
-            ];
-            var wData = [
-            { x: new Date(2020,11,11), y: 35.939 },
-            { x: new Date(2020,11,12), y: 50.896 },
-            { x: new Date(2020,11,13), y: 16.625 },
-            { x: new Date(2020,11,14), y: 0.003 },
-            { x: new Date(2020,11,15), y: null }
-            ];
-
-
-
             function callByID(id, ele){
                 var x = document.getElementById(id);            
                 if (x.style.display == 'none') {
@@ -214,6 +253,9 @@
                 else{
                     x.style.display = 'none';
                     $(ele).attr('value', " Show ");
+                    if (id == "dailySalesSection") {
+                        document.getElementById("chartContainerDailySales").innerHTML="";
+                    }
                 }
             }
 
@@ -254,15 +296,10 @@
 
             function showDailySales() 
             {
-
                 var From = document.getElementById("dailySalesFrom").value;
                 var To = document.getElementById("dailySaleTo").value;
                 var select = document.getElementById('slctAllNamesForDaily');
                 var selectedItemID = select.options[select.selectedIndex].value;
-
-                // console.log(From); 
-                // console.log(To); 
-                // console.log(selectedItemID); 
 
                 $.ajax({
                     type: 'post',
@@ -277,7 +314,118 @@
                     {
                         if (response) {
                             console.log("Response arrived");
-                            viewPoint(); 
+
+                            var arr = new Array;
+                            var chartLocationID = "chartContainerDailySales";
+                            var chartTopic = "Daily sales summery (from :" + From + " To :" + To + ")";
+                            var xAxisTitle = "Date";
+                            var yAxixTitle = "Qty";
+                            var maxY = 0;
+                            var XvalueFormat = "YYYY-MMM-D";
+                            var intervelTypeX = "day";
+
+                            obj = JSON.parse(response);
+                            console.log(obj);
+                            console.log("Len:" + obj.length);
+                            for (var i = 0; i < obj.length; i++) {
+                                var prdtnName = obj[i][0];
+                                var newDataSet = new Array;
+
+                                for (var j = 0; j < obj[i][1].length; j++) {
+
+                                    var saleDate = obj[i][1][j][0];
+                                    const dataXY = { x: 0, y: 0};
+                                    dataXY.x = new Date(obj[i][1][j][0]);
+                                    dataXY.y = parseInt(obj[i][1][j][1]);
+
+                                    if (maxY < parseInt(obj[i][1][j][1])) {
+                                        maxY += parseInt(obj[i][1][j][1]);
+                                    }
+
+                                    newDataSet.push(dataXY);
+
+                                }
+                                console.log(newDataSet);
+
+                                arr.push(createDataSet(newDataSet, prdtnName));
+                            }
+                            console.log(arr);
+                            if (maxY == 0) {
+                                maxY = 2;
+                            }
+                            else{
+                                maxY += 2;
+                            }
+                            viewTheChart(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr, maxY, XvalueFormat, intervelTypeX);
+                        }
+                    }
+                });
+            }
+
+            function showMonthlySales() 
+            {
+                var From = document.getElementById("MonthlySalesFrom").value;
+                var To = document.getElementById("MonthlySaleTo").value;
+                var select = document.getElementById('slctAllNamesForMonthly');
+                var selectedItemID = select.options[select.selectedIndex].value;
+
+                $.ajax({
+                    type: 'post',
+                    url: 'controll/ReportController.php', 
+                    data: {
+                        showMonthlySales : 1,
+                        From : From,
+                        To : To,
+                        selectedItemID : selectedItemID,
+                    },
+                    success: function (response) 
+                    {
+                        if (response) {
+                            console.log("Response arrived");
+
+                            var arr = new Array;
+                            var chartLocationID = "chartContainerMonthlySales";
+                            var chartTopic = "Monthly sales summery (from :" + From + " To :" + To + ")";
+                            var xAxisTitle = "Month";
+                            var yAxixTitle = "Qty";
+                            var maxY = 0;
+                            var XvalueFormat = "YYYY-MMM";
+                            var intervelTypeX = "month";
+
+
+                            obj = JSON.parse(response);
+                            console.log(obj);
+                            console.log("Len:" + obj.length);
+                            for (var i = 0; i < obj.length; i++) {
+                                var prdtnName = obj[i][0];
+                                var newDataSet = new Array;
+
+                                for (var j = 0; j < obj[i][1].length; j++) {
+
+                                    var saleDate = obj[i][1][j][0];
+                                    const dataXY = { x: 0, y: 0};
+                                    dataXY.x = new Date(obj[i][1][j][0]);
+                                    dataXY.y = parseInt(obj[i][1][j][1]);
+
+                                    if (maxY < parseInt(obj[i][1][j][1])) {
+                                        maxY += parseInt(obj[i][1][j][1]);
+                                    }
+
+                                    newDataSet.push(dataXY);
+
+                                }
+                                console.log(newDataSet);
+
+                                arr.push(createDataSet(newDataSet, prdtnName));
+                            }
+                            console.log(arr);
+                            if (maxY == 0) {
+                                maxY = 2;
+                            }
+                            else{
+                                maxY += 2;
+                            }
+                            viewTheChart(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr, maxY, XvalueFormat, intervelTypeX);
                         }
                     }
                 });
@@ -288,40 +436,15 @@
 
 
 
-            
-
-
-            function viewPoint(){                
-                var arr = new Array;
-                var chartLocationID = "chartContainerSales";
-                var chartTopic = "Chart Topic";
-                var xAxisTitle = "Type code";
-                var yAxixTitle = "Qty";
-
-                console.log(xData);
-                console.log(yData);
-                console.log(zData);
-
-                arr.push(createData(xData, 'MyName'));
-                arr.push(createData(yData, 'YourName'));
-                arr.push(createData(zData, 'Dog'));
-                arr.push(createData(wData, 'New Goat'));
-
-                console.log(arr);
-                
-                chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr);
-            }
-
-            //Data set create function for create a chart
-            function createData(getData, Name){
+            function createDataSet(getData, Name){
                 var j = {
                     type:"line",
                     axisYType: "primary",
                     name: Name,
                     showInLegend: true,
-                    markerSize: 0,
+                    markerType: "circle",
+                    markerSize: 10,
                     connectNullData: true,
-                    // nullDataLineDashType: "solid",
                     xValueType: "number",
                     lineThickness: 3,
                     dataPoints: getData,                
@@ -329,12 +452,11 @@
                 return j;
             }
 
-            //Chart create function
-            function chartShow(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr){
+            function viewTheChart(chartTopic, xAxisTitle, yAxixTitle, chartLocationID, arr, maxY, XvalueFormat, intervelTypeX){
 
-                var chartLocationID = chartLocationID;          
-                // alert("Came here");
-                window.onload = function() {
+                var chartLocationID = chartLocationID;
+                show();
+                function show() {
                     var chart = new CanvasJS.Chart(chartLocationID, {
                         animationEnabled: true,
                         title: {
@@ -342,36 +464,31 @@
                         },
                         axisX: {
                             title: xAxisTitle,                      
-                            valueFormatString: "YYYY-MMM-D",
-                            interval:1,
-                            intervalType: "day"
+                            valueFormatString: XvalueFormat,
+                            interval:2,
+                            intervalType: intervelTypeX
                         },
                         axisY: {
                             title: yAxixTitle,
-                            // minimum: 0,
+                            maximum : maxY,
+                            minimum: -1,
                             suffix: "",
                             includeZero: true
+                        },
+                        toolTip: {
+                            shared: true
                         },
                         legend: {
                             cursor: "pointer",
                             verticalAlign: "bottom",
                             horizontalAlign: "center",
-                            dockInsidePlotArea: true,
+                            dockInsidePlotArea: false,
                         },
                         data:arr 
                     });
                     chart.render();
                 }
             }
-
-            // viewPoint();
-
-
-
-
-
-
-
 
         </script>
 
