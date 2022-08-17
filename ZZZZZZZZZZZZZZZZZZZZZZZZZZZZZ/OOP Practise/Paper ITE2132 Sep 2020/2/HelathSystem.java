@@ -75,6 +75,8 @@ class HelathSystem{
 		System.out.println("    2 - Specialist");
 		String docTypeSelect = docType.nextLine();
 
+		System.out.println(docTypeSelect);
+
 		if (docTypeSelect == "1") { //1 - General Practitioner
 			Scanner genHourRate = new Scanner(System.in);
 			System.out.println("Enter hourly Rate: ");
@@ -94,7 +96,7 @@ class HelathSystem{
 			String text = obj.nextLine();
 		}
 		else{
-			System.out.println("Invalid inpput. Please eneter valid data.");
+			System.out.println("Invalid input. Please eneter valid type.");
 		}
 	}
 }
