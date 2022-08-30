@@ -192,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				
 				$chartData[$mainNo][0] = $prdctName;
 
-				$findSalesSQL = "SELECT * FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID` = '$prdctID' AND `buyAndSell_active`='1' AND (`buyAndSell_PaidDate` BETWEEN MONTH('$From') AND MONTH('$To')";
+				$findSalesSQL = "SELECT MONTH(`buyAndSell_PaidDate`), YEAR(`buyAndSell_PaidDate`), `buyAndSell_PaidDate` FROM `tb_buyandsell`";
 
 				$findSalesQuery = mysqli_query($conn, $findSalesSQL);
 
