@@ -444,7 +444,9 @@
                     document.getElementById("listedItemID").value = "";
 
                     var element = document.getElementById("nameSuggestDIV");
-                    element.removeChild(element.firstElementChild);
+                    if (element.firstElementChild) {
+                        element.removeChild(element.firstElementChild);
+                    }                    
                     searchData(0);
                 }
 
@@ -460,7 +462,7 @@
                     document.getElementById("topicBG").style.backgroundColor = "";
                     clearAll();
                 }
-
+ 
                 searchData(0);
                 function searchData(data) {
                     $.ajax({
