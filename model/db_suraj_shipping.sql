@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2022 at 05:48 AM
+-- Generation Time: Sep 07, 2022 at 07:05 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -49,7 +49,11 @@ CREATE TABLE `tb_buyandsell` (
 --
 
 INSERT INTO `tb_buyandsell` (`buyAndSell_ID`, `buyAndSell_PaidDate`, `buyAndSell_Ebay_OrderID`, `buyAndSell_Ali_OrderID`, `buyAndSell_TrackingID`, `buyAndSell_Carrier`, `buyAndSell_Qty`, `buyAndSell_SellingUnitCostUSD`, `buyAndSell_SellingShippingCostUSD`, `buyAndSell_PaypalCharge_USD`, `buyAndSell_USD_LKR_Rate`, `tb_mylisting_mylisting_ID`, `buyAndSell_active`) VALUES
-(1, '2022-08-02 00:00:00', '12', '12', '23', '12', 23, 0, 0, 12, 21, 1, '1');
+(1, '2022-03-02 00:00:00', '12', '12', '23', '12', 23, 0, 0, 12, 21, 1, '1'),
+(2, '2021-01-01 00:00:00', '1', '1', '1', '1', 1, 1, 1, 1, 1, 2, '1'),
+(3, '2022-08-18 00:00:00', '1', '1', '1', '1', 1, 123, 434, 1, 1, 2, '1'),
+(4, '2022-02-08 00:00:00', '1', '1', '1', '1', 1, 0, 0, 1, 1, 2, '1'),
+(5, '2022-08-19 00:00:00', '1', '1', '1', '1', 2, 123, 434, 1, 1, 2, '1');
 
 -- --------------------------------------------------------
 
@@ -63,6 +67,16 @@ CREATE TABLE `tb_login` (
   `login_Password` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   `login_level` varchar(2) COLLATE utf8_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `tb_login`
+--
+
+INSERT INTO `tb_login` (`login_ID`, `login_UserName`, `login_Password`, `login_level`) VALUES
+(1, 'admin', 'admin1234', '0'),
+(2, 'admin', 'admin1234', '0'),
+(3, 'jayashanka', 'j1234', '0'),
+(4, 'creater', 'creater1234', '1');
 
 -- --------------------------------------------------------
 
@@ -122,7 +136,13 @@ ALTER TABLE `tb_mylisting`
 -- AUTO_INCREMENT for table `tb_buyandsell`
 --
 ALTER TABLE `tb_buyandsell`
-  MODIFY `buyAndSell_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `buyAndSell_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tb_login`
+--
+ALTER TABLE `tb_login`
+  MODIFY `login_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_mylisting`

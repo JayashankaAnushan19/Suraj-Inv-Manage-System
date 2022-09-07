@@ -158,7 +158,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	}
 
 	//Monthly sales as a chart
-	//Daily sales as a chart
 	if (isset($_POST['showMonthlySales'])) {
 		$From = $_POST['From'];
 		$To = $_POST['To'];
@@ -192,7 +191,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 				
 				$chartData[$mainNo][0] = $prdctName;
 
-				$findSalesSQL = "SELECT MONTH(`buyAndSell_PaidDate`), YEAR(`buyAndSell_PaidDate`), `buyAndSell_PaidDate` FROM `tb_buyandsell`";
+				$findSalesSQL = "SELECT `buyAndSell_ID`,`tb_mylisting_mylisting_ID`,`buyAndSell_PaidDate`, SUM(`buyAndSell_Qty`) FROM `tb_buyandsell` WHERE `tb_mylisting_mylisting_ID` = '$prdctID' AND `buyAndSell_active`='1' AND (`buyAndSell_PaidDate` BETWEEN '$From' AND '$To') GROUP BY MONTH(`buyAndSell_PaidDate`)";
 
 				$findSalesQuery = mysqli_query($conn, $findSalesSQL);
 
@@ -205,7 +204,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 						
 						$date = date("Y,m,d",strtotime($row1['buyAndSell_PaidDate']));
 						$chartData[$mainNo][1][$i][0] = $date;
-						$chartData[$mainNo][1][$i][1]= $row1['buyAndSell_Qty'];
+						$chartData[$mainNo][1][$i][1]= $row1['SUM(`buyAndSell_Qty`)'];
 
 						$i++;					
 					}
@@ -221,6 +220,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		}
 		echo json_encode($chartData);
 	}
+
+	// //Monthly sales as a chart
+	// if (isset($_POST['showMonthlySales'])) {
+	// 	$From = $_POST['From'];
+	// 	$To = $_POST['To'];
+	// 	$selectedItemID = $_POST['selectedItemID']; 
+
+	// 	$data;
+	// 	$dataSet;
+
+	// 	if ($selectedItemID != 0) {
+	// 		$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' AND `mylisting_ID`='$selectedItemID' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+	// 	}
+	// 	else{
+	// 		$loadNameandIDsSQL = "SELECT `mylisting_ID`,`mylisting_Name` FROM `tb_mylisting` WHERE `mylisting_active`='1' ORDER BY `tb_mylisting`.`mylisting_Name` ASC";
+	// 	}
+	// 	$chartData;		
+	// 	$loadDataNamesToSalesQuery = mysqli_query($conn, $loadNameandIDsSQL);
+	// 	if (mysqli_num_rows($loadDataNamesToSalesQuery) > 0) {
+	// 		$Products;
+	// 		$no = $mainNo = 0;
+	// 		while($row = mysqli_fetch_assoc($loadDataNamesToSalesQuery))
+	// 		{
+	// 			$Products[$no][0] = $row['mylisting_ID'];
+	// 			$Products[$no][1] = $row['mylisting_Name'];	
+	// 			$no++;			
+	// 		}
+
+	// 		for ($j=0; $j < count($Products); $j++) { 
+	// 			$prdctName = $Products[$j][1];				
+	// 			$prdctID = $Products[$j][0];
+
+				
+	// 			$chartData[$mainNo][0] = $prdctName;
+
+	// 			$findSalesSQL = "SELECT REPLACE(DATE_FORMAT(`buyAndSell_PaidDate`, '%Y-%m'),'-',''), `buyAndSell_PaidDate` FROM `tb_buyandsell`";
+
+	// 			$findSalesQuery = mysqli_query($conn, $findSalesSQL);
+
+				
+	// 			$dataCollect;
+
+	// 			if (mysqli_num_rows($findSalesQuery) > 0){
+	// 				$i=0;
+	// 				while($row1 = mysqli_fetch_assoc($findSalesQuery)) {
+						
+	// 					$date = date("Y,m,d",strtotime($row1['buyAndSell_PaidDate']));
+	// 					$chartData[$mainNo][1][$i][0] = $date;
+	// 					$chartData[$mainNo][1][$i][1]= $row1['buyAndSell_Qty'];
+
+	// 					$i++;					
+	// 				}
+	// 			}
+	// 			else{
+	// 				$date = date("Y-m-d");
+	// 				$chartData[$mainNo][1][0][0] = $date;
+	// 				$chartData[$mainNo][1][0][1] = 0;
+	// 			}
+	// 			$mainNo++;
+	// 		}
+			
+	// 	}
+	// 	echo json_encode($chartData);
+	// }
 
 
 

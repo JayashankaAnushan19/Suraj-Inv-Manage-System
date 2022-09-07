@@ -175,7 +175,7 @@
                                 <input type="button" class="btn btn-primary" style="border-radius: 20px;" onclick="callByID('monthlySalesSection', this)" value=" Show ">
                             </p>
                         </div>
-                        <div class="card-body" id="monthlySalesSection" style="display: block;">
+                        <div class="card-body" id="monthlySalesSection" style="display: none;">
                             <div class="row">
                                 <div class="col-md">
                                     <div class="form-row">
@@ -194,7 +194,7 @@
                                                 <label for="email">
                                                     <strong>From</strong>
                                                 </label>
-                                                <input class="form-control" value='2022-01-01'  type="month" id="MonthlySalesFrom" name="MonthlySalesFrom">
+                                                <input class="form-control" value='2022-01-01'  type="date" id="MonthlySalesFrom" name="MonthlySalesFrom">
                                             </div>
                                         </div>
                                         <div class="col">
@@ -202,7 +202,7 @@
                                                 <label for="email">
                                                     <strong> To </strong>
                                                 </label>
-                                                <input class="form-control" value='2022-01-01'  type="month" id="MonthlySaleTo" name="MonthlySaleTo" >
+                                                <input class="form-control" value='2022-01-01'  type="date" id="MonthlySaleTo" name="MonthlySaleTo" >
                                             </div>
                                         </div>
                                         <div class="col">
@@ -288,6 +288,7 @@
                     },
                     success: function (response) {
                         document.getElementById("slctAllNamesForDaily").innerHTML = response;
+                        document.getElementById("slctAllNamesForMonthly").innerHTML = response;
                     }
                 });
             }
@@ -369,6 +370,7 @@
                 var select = document.getElementById('slctAllNamesForMonthly');
                 var selectedItemID = select.options[select.selectedIndex].value;
 
+
                 $.ajax({
                     type: 'post',
                     url: 'controll/ReportController.php', 
@@ -430,10 +432,6 @@
                     }
                 });
             }
-
-
-
-
 
 
             function createDataSet(getData, Name){

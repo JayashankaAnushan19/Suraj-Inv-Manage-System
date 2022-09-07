@@ -27,8 +27,8 @@
                                         <h4 class="text-dark mb-4">Welcome Back!</h4>
                                     </div>
                                     <form class="user">
-                                        <div class="form-group"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter User Name..." name="email"></div>
-                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="email" id="txtInputEmail" aria-describedby="emailHelp" placeholder="Enter User Name..." name="email"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="txtInputPassword" placeholder="Password" name="password"></div>
                                         <button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
                                         
                                         <hr>
@@ -46,12 +46,33 @@
             </div>
         </div>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/chart.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-    <script src="assets/js/theme.js"></script>
-</body>
 
-</html>
+    <script type="text/javascript">
+        function checkLogin(){
+            var UName = document.getElementById("txtInputEmail").value;
+            var Password = document.getElementById("txtInputPassword").value;
+            $.ajax({
+                type: 'post',
+                url: 'controll/ReportController.php', 
+                data: {
+                    loginCheck : 1,
+                    UName : UName,
+                    Password : Password,
+                },
+                success: function (response) 
+                {
+                    
+                }
+            }
+        </script>
+
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/js/chart.min.js"></script>
+        <script src="assets/js/bs-init.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+        <script src="assets/js/theme.js"></script>
+    </body>
+
+    </html>
