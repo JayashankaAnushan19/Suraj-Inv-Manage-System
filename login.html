@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Login - Brand</title>
+    <title>Profile - Brand</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -26,13 +29,15 @@
                                     <div class="text-center">
                                         <h4 class="text-dark mb-4">Welcome Back!</h4>
                                     </div>
-                                    <form class="user">
-                                        <div class="form-group"><input class="form-control form-control-user" type="email" id="txtInputEmail" aria-describedby="emailHelp" placeholder="Enter User Name..." name="email"></div>
-                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="txtInputPassword" placeholder="Password" name="password"></div>
-                                        <button class="btn btn-primary btn-block text-white btn-user" type="submit">Login</button>
+                                    <form class="user" method="post">
+                                        <div class="form-group"><input class="form-control form-control-user" type="text" id="txtInputEmail" placeholder="Enter User Name..." name="txtInputEmail"></div>
                                         
-                                        <hr>
+                                        <div class="form-group"><input class="form-control form-control-user" type="text" id="txtInputPassword" placeholder="Password" name="txtInputPassword"></div>
+                                        
+
                                     </form>
+                                    <button class="btn btn-primary btn-block text-white btn-user" type="button" onclick="checkLogin();">Login</button>
+                                    <hr>
                                     <div class="text-center">
                                         <div class="small">
                                             Developed by JMax Solution.
@@ -51,28 +56,53 @@
         function checkLogin(){
             var UName = document.getElementById("txtInputEmail").value;
             var Password = document.getElementById("txtInputPassword").value;
-            $.ajax({
-                type: 'post',
-                url: 'controll/ReportController.php', 
-                data: {
-                    loginCheck : 1,
-                    UName : UName,
-                    Password : Password,
-                },
-                success: function (response) 
-                {
-                    
-                }
+
+            
+
+            if (UName == "" ) {
+                alert("Enter valid User name.");
             }
-        </script>
+            else if (Password == "") {
+                alert("Enter valid Password.");
+            }
+            else {
+                $.ajax({
+                    type: 'post',
+                    url: 'controll/loginController.php', 
+                    data: {
+                        loginCheck : 1,
+                        UName : UName,
+                        Password : Password,
+                    }, 
+                    success: function (response) 
+                    {
+                        if (response) {
+                            alert(response);
+                            if (response == 1) {
+                                window.location.href = "index.html";
+                            }
+                            else{
+                                alert(response);
+                                alert("Invalid user name or password. Please enter valid user name and password.");
+                            }
+                        }
+                        else{
+                            alert("Connection Error. Please check the connect and try again.");
+                        }
+                    }
+                });
+            }
+        }
+    </script>
 
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/chart.min.js"></script>
-        <script src="assets/js/bs-init.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-        <script src="assets/js/theme.js"></script>
-    </body>
 
-    </html>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

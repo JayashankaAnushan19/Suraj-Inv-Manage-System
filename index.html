@@ -1,5 +1,12 @@
 <!DOCTYPE html>
 <html>
+<?php 
+if (!(isset($_SESSION["id"]))) {
+    header('Location: login.html');
+}
+
+?>
+
 
 <head>
     <meta charset="utf-8">
