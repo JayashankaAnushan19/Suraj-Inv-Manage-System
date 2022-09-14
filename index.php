@@ -13,9 +13,9 @@ if (isset($_GET['logout'])) {
         window.location.replace("index.php");
     </script>
     <?php
-   }
 }
- ?>
+}
+?>
 
 <head>
     <meta charset="utf-8">
@@ -52,7 +52,7 @@ if (isset($_GET['logout'])) {
                                         
 
                                     </form>
-                                    <button class="btn btn-primary btn-block text-white btn-user" type="button" onclick="checkLogin();">Login</button>
+                                    <button id="btnLog" class="btn btn-primary btn-block text-white btn-user" type="button" onclick="checkLogin();">Login</button>
                                     <hr>
                                     <div class="text-center">
                                         <div class="small">
@@ -107,12 +107,21 @@ if (isset($_GET['logout'])) {
                 });
             }
         }
-    </script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/chart.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-    <script src="assets/js/theme.js"></script>
+
+        var input = document.getElementById("txtInputPassword");
+        input.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") 
+          {
+            event.preventDefault();
+            document.getElementById("btnLog").click();
+            }
+        });
+</script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/chart.min.js"></script>
+<script src="assets/js/bs-init.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="assets/js/theme.js"></script>
 </body>
 
 </html>

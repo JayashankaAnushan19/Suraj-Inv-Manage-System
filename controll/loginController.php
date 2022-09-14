@@ -19,11 +19,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					$_SESSION["uname"] = $row['login_UserName'];
 					$_SESSION["id"] = $row['login_ID'];
 					$_SESSION["accLvl"] = $row['login_level'];
+					$_SESSION["pass"] = $row['login_Password'];
 				}
 				else{
 					$_SESSION["uname"] = $row['login_UserName'];
 					$_SESSION["id"] = $row['login_ID'];
 					$_SESSION["accLvl"] = $row['login_level'];
+					$_SESSION["pass"] = $row['login_Password'];
 				}
 			}
 			echo "1";

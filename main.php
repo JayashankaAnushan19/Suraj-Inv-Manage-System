@@ -18,6 +18,8 @@ if (!(isset($_SESSION["id"]))) {
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -57,8 +59,8 @@ if (!(isset($_SESSION["id"]))) {
                             </li>
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow" role="presentation">
-                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small">Admin</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small"><?php echo (isset($_SESSION['uname'])) ? $_SESSION['uname'] : 'User'; ?></span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="profile.php"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i><span onclick="logout();">&nbsp;Logout</span></a></div>
                                     </div>
                                 </li>
@@ -75,7 +77,7 @@ if (!(isset($_SESSION["id"]))) {
                                             <div class="row align-items-center no-gutters">
                                                 <div class="col mr-2">
                                                     <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Today Sale</span></div>
-                                                    <div class="text-dark font-weight-bold h5 mb-0">$<span id="txtTodaySale">40,000</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0">$<span id="txtTodaySale">00,000</span></div>
                                                 </div>
                                                 <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
                                             </div>
@@ -90,7 +92,7 @@ if (!(isset($_SESSION["id"]))) {
                                                     <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Monthly Sale</span></div>
                                                     <div class="row no-gutters align-items-center">
                                                         <div class="col-auto">
-                                                            <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span id="txtMonthlySale">40,000</span></div>
+                                                            <div class="text-dark font-weight-bold h5 mb-0 mr-3">$<span id="txtMonthlySale">00,000</span></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -104,8 +106,8 @@ if (!(isset($_SESSION["id"]))) {
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">
                                                 <div class="col mr-2">
-                                                    <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Inventory item count</span></div>
-                                                    <div class="text-dark font-weight-bold h5 mb-0"><span id="txtInvtCount">2,500</span></div>
+                                                    <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Inventory item count(Fix)</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0"><span id="txtInvtCountFix">00,000</span></div>
                                                 </div>
                                                 <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                             </div>
@@ -117,8 +119,8 @@ if (!(isset($_SESSION["id"]))) {
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">
                                                 <div class="col mr-2">
-                                                    <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Inventory item count</span></div>
-                                                    <div class="text-dark font-weight-bold h5 mb-0"><span id="txtInvtCount">2,500</span></div>
+                                                    <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Inventory item count(Auc)</span></div>
+                                                    <div class="text-dark font-weight-bold h5 mb-0"><span id="txtInvtCountAuc">00,000</span></div>
                                                 </div>
                                                 <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                             </div>
@@ -135,11 +137,43 @@ if (!(isset($_SESSION["id"]))) {
                                         <div class="text-center my-auto copyright"><span>Copyright © Brand 2020</span></div>
                                     </div>
                                 </footer>
-                            </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+                            </div>
+                            <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
 
                             <script type="text/javascript">
                                 function logout(){
                                     window.location.href = "index.php?logout=1";
+                                }
+                                loadData();
+                                function loadData(){
+                                    var x = document.getElementById('tempShow');
+                                    $.ajax({
+                                        type: 'post',
+                                        url: 'controll/dashboardController.php', 
+                                        data: {
+                                            dashData : 1,
+                                        }, 
+                                        success: function (response) 
+                                        {
+                                            if (response) {
+                                                // x.innerHTML = response;
+
+                                                var obj = JSON.parse(response);
+
+                                                document.getElementById("txtTodaySale").innerHTML = numberWithCommas(obj[0]);
+                                                document.getElementById("txtMonthlySale").innerHTML = numberWithCommas(obj[1]);
+                                                document.getElementById("txtInvtCountFix").innerHTML = numberWithCommas(obj[2]);
+                                                document.getElementById("txtInvtCountAuc").innerHTML = numberWithCommas(obj[3]);
+                                                
+                                            }
+                                            else{
+                                                alert("No came data");
+                                            }
+                                        }
+                                    });
+                                }
+                                function numberWithCommas(x) {
+                                    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                 }
                             </script>
 
