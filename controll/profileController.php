@@ -35,10 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$NewPass = $_POST['newPass'];
 
 		if ($OldPass == $_SESSION["pass"]){
-
 			$changPass = "UPDATE `tb_login` SET `login_Password`='$NewPass' WHERE `login_ID`='$id'";
 			if (mysqli_query($conn, $changPass)) {
-				echo "1";
+				echo "ok";
 			}
 			else{
 				echo "Connection error. Please contact system admin.";
@@ -54,10 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	if (isset($_POST['changeUName'])) 
 	{
 		$UserName = $_POST['UsrName'];
+		$id = $_SESSION["id"];
 
 		$changeUName = "UPDATE `tb_login` SET `login_UserName`='$UserName' WHERE `login_ID`='$id'";
 		if (mysqli_query($conn, $changeUName)) {
-			echo "1";
+			$_SESSION["uname"] = $UserName;
+			echo "UserName changed successfully.";
 		}
 		else{
 			echo "Connection error. Please contact system admin.";

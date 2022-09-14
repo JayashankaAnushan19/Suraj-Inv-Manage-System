@@ -7,6 +7,7 @@ if (session_status() === PHP_SESSION_NONE || $_SESSION["id"] == "") {
 if (!(isset($_SESSION["id"]))) {
     header('Location: index.php');
 }
+print_r($_SESSION);
 ?>
 <head>
     <meta charset="utf-8">
@@ -195,13 +196,8 @@ if (!(isset($_SESSION["id"]))) {
                             success: function (response) 
                             {
                                 if (response) {
-                                    if (response = 1) {
-                                        alert("Password changed successfully. Please re-login.");
-                                        window.location.href = "index.php";
-                                    }
-                                    else{
-                                        alert(response)
-                                    }
+                                    alert(response);
+                                    document.getElementById("saveUserName").reset();
                                 }
                                 else{
                                     alert("Connection Error. Please check the Connection and try again.");
@@ -217,7 +213,8 @@ if (!(isset($_SESSION["id"]))) {
 
                         if (newPass != retypePass) {
                             alert("Newly entered Passwords are not matched. Please re-enter valid passwords. Err(Passwords not matched.)");
-                            newPass = retypePass = "";
+                            document.getElementById("oldPass").value = document.getElementById("newPass").value = "";
+                            document.getElementById("retypePass").value = "";
                         }
                         else{
                             $.ajax({
@@ -231,14 +228,15 @@ if (!(isset($_SESSION["id"]))) {
                                 success: function (response) 
                                 {
                                     if (response) {
-                                        if (response = 1) {
+                                        if (response = "ok") {
+                                            alert("Password changed successfully. Please re-login.");
+                                            window.location.href = "index.php";
+                                        }
+                                        else{
+                                            alert(response);
                                             document.getElementById("oldPass").value = "";
                                             document.getElementById("newPass").value = "";
                                             document.getElementById("retypePass").value = "";
-                                            alert("Password changed successfully.");
-                                        }
-                                        else{
-                                            alert(response)
                                         }
                                     }
                                     else{
