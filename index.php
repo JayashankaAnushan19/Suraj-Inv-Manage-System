@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 <html>
+<?php 
+if (isset($_GET['logout'])) {
+   if ($_GET['logout'] == 1) {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    session_unset();
+    session_destroy();
+    ?>
+    <script type="text/javascript">
+        window.location.replace("index.php");
+    </script>
+    <?php
+   }
+}
+ ?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -10,7 +27,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
 </head>
 
 <body class="bg-gradient-primary">
@@ -32,7 +48,7 @@
                                     <form class="user" method="post">
                                         <div class="form-group"><input class="form-control form-control-user" type="text" id="txtInputEmail" placeholder="Enter User Name..." name="txtInputEmail"></div>
                                         
-                                        <div class="form-group"><input class="form-control form-control-user" type="text" id="txtInputPassword" placeholder="Password" name="txtInputPassword"></div>
+                                        <div class="form-group"><input class="form-control form-control-user" type="password" id="txtInputPassword" placeholder="Password" name="txtInputPassword"></div>
                                         
 
                                     </form>
@@ -55,9 +71,7 @@
     <script type="text/javascript">
         function checkLogin(){
             var UName = document.getElementById("txtInputEmail").value;
-            var Password = document.getElementById("txtInputPassword").value;
-
-            
+            var Password = document.getElementById("txtInputPassword").value;            
 
             if (UName == "" ) {
                 alert("Enter valid User name.");
@@ -77,12 +91,12 @@
                     success: function (response) 
                     {
                         if (response) {
-                            alert(response);
+                            // alert(response);
                             if (response == 1) {
-                                window.location.href = "index.html";
+                                window.location.href = "main.php";
                             }
                             else{
-                                alert(response);
+                                // alert(response);
                                 alert("Invalid user name or password. Please enter valid user name and password.");
                             }
                         }
@@ -94,10 +108,6 @@
             }
         }
     </script>
-
-
-
-
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/chart.min.js"></script>
     <script src="assets/js/bs-init.js"></script>

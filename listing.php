@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
-
+<?php 
+if (session_status() === PHP_SESSION_NONE || $_SESSION["id"] == "") {
+    session_start();
+}
+if (!(isset($_SESSION["id"]))) {
+    header('Location: index.php');
+}
+?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -11,7 +18,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
+
 </head>
 
 <body id="page-top">
@@ -24,15 +31,15 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link " href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>                   
+                    <li class="nav-item" role="presentation"><a class="nav-link " href="main.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>                   
                     
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="listing.html"><i class="fas fa-user"></i><span>Listing</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="listing.php"><i class="fas fa-user"></i><span>Listing</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="buyandsell.html"><i class="fas fa-user"></i><span>Buy and Sell</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="buyandsell.php"><i class="fas fa-user"></i><span>Buy and Sell</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="report.html"><i class="fas fa-table"></i><span>Report</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="report.php"><i class="fas fa-table"></i><span>Report</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.php"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -48,7 +55,7 @@
                             <li class="nav-item dropdown no-arrow" role="presentation">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><span class="d-none d-lg-inline mr-2 text-gray-600 small">Admin</span><img class="border rounded-circle img-profile" src="assets/img/avatars/avatar1.jpeg"></a>
                                     <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i><span onclick="logout();">&nbsp;Logout</span></a></div>
                                     </div>
                                 </li>
                             </ul>
@@ -450,16 +457,10 @@
                                 }
                             });
                         }
-                    </script>   
-
-
-
-
-
-
-
-
-
+                        function logout(){
+                            window.location.href = "index.php?logout=1";
+                        }
+                    </script>  
 
                     <a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
                     <script src="assets/js/jquery.min.js"></script>

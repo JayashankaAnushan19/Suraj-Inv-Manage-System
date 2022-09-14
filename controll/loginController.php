@@ -17,12 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				if (session_status() === PHP_SESSION_NONE || $_SESSION["id"] == "") {
 					session_start();
 					$_SESSION["uname"] = $row['login_UserName'];
-					$_SESSION["id"] = 2;//$row['login_ID'];
+					$_SESSION["id"] = $row['login_ID'];
 					$_SESSION["accLvl"] = $row['login_level'];
 				}
 				else{
 					$_SESSION["uname"] = $row['login_UserName'];
-					$_SESSION["id"] = 2;//$row['login_ID'];
+					$_SESSION["id"] = $row['login_ID'];
 					$_SESSION["accLvl"] = $row['login_level'];
 				}
 			}

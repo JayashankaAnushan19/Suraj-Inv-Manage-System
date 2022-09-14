@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
-
+<?php 
+if (session_status() === PHP_SESSION_NONE || $_SESSION["id"] == "") {
+    session_start();
+}
+if (!(isset($_SESSION["id"]))) {
+    header('Location: index.php');
+}
+?>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -22,15 +29,15 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item" role="presentation"><a class="nav-link " href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>                   
+                    <li class="nav-item" role="presentation"><a class="nav-link " href="main.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>                   
                     
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="listing.html"><i class="fas fa-user"></i><span>Listing</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="listing.php"><i class="fas fa-user"></i><span>Listing</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="buyandsell.html"><i class="fas fa-user"></i><span>Buy and Sell</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="buyandsell.php"><i class="fas fa-user"></i><span>Buy and Sell</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link active" href="report.html"><i class="fas fa-table"></i><span>Report</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link active" href="report.php"><i class="fas fa-table"></i><span>Report</span></a></li>
 
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="profile.php"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -61,7 +68,7 @@
                                     class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
                                     <a
                                     class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
-                                    <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                    <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i><span onclick="logout();">&nbsp;Logout</span></a></div>
                                 </div>
                             </li>
                         </ul>
@@ -486,6 +493,9 @@
                     });
                     chart.render();
                 }
+            }
+            function logout(){
+                window.location.href = "index.php?logout=1";
             }
 
         </script>
