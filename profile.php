@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE || $_SESSION["id"] == "") {
 if (!(isset($_SESSION["id"]))) {
     header('Location: index.php');
 }
-print_r($_SESSION);
+// print_r($_SESSION);
 ?>
 <head>
     <meta charset="utf-8">
@@ -120,7 +120,7 @@ print_r($_SESSION);
                                             <div class="card-body">
                                                 <div class="form-row">
                                                     <div class="col">
-                                                        <div class="form-group"><label for="oldPass"><strong>Old Password</strong></label><input class="form-control" type="text" placeholder="Old Password" id="oldPass" name="oldPass" ></div>
+                                                        <div class="form-group"><label for="oldPass"><strong>Old Password</strong></label><input class="form-control" type="password" placeholder="Old Password" id="oldPass" name="oldPass" ></div>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
