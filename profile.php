@@ -142,6 +142,8 @@ if (!(isset($_SESSION["id"]))) {
                 </div>
 
                 <script type="text/javascript">
+                    document.getElementById("saveUserName").disabled = true;
+                    
                     loadData();
                     function loadData() {
                         $.ajax({
@@ -179,6 +181,7 @@ if (!(isset($_SESSION["id"]))) {
 
                     var saveChanges = document.getElementById("txtUserName");
                     saveChanges.addEventListener("change", function(event) {
+                        document.getElementById("saveUserName").disabled = false;
                         document.getElementById("saveUserName").innerHTML = "Update";
                         document.getElementById("saveUserName").classList.add("btn-warning");
                     });
@@ -216,7 +219,7 @@ if (!(isset($_SESSION["id"]))) {
                             document.getElementById("oldPass").value = document.getElementById("newPass").value = "";
                             document.getElementById("retypePass").value = "";
                         }
-                        else{
+                        else{ 
                             $.ajax({
                                 type: 'post',
                                 url: 'controll/profileController.php', 
